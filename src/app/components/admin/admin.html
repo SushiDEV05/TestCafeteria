@@ -1,0 +1,88 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Panel Administrador</h2>
+//formulario
+  <div class="card p-4 shadow mb-5">
+    <h4 class="mb-3">
+      {{ editando ? 'Editar Producto' : 'Agregar Producto' }}
+    </h4>
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Nombre"
+      [(ngModel)]="nuevoProducto.nombre"
+    >
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Descripción"
+      [(ngModel)]="nuevoProducto.descripcion"
+    >
+    <input
+      type="number"
+      class="form-control mb-3"
+      placeholder="Precio"
+      [(ngModel)]="nuevoProducto.precio"
+    >
+    <input
+      type="file"
+      class="form-control mb-3"
+      accept=".jpg,.jpeg,.png"
+      (change)="seleccionarImagen($event)"
+    >
+    <input
+      type="number"
+      class="form-control mb-3"
+      placeholder="Stock"
+      [(ngModel)]="nuevoProducto.stock"
+    >
+    <button
+      class="btn btn-dark me-2"
+      (click)="agregarProducto()"
+    >
+      {{ editando ? 'Actualizar' : 'Agregar' }}
+    </button>
+    <button
+      *ngIf="editando"
+      class="btn btn-secondary"
+      (click)="cancelarEdicion()"
+    >
+      Cancelar
+    </button>
+  </div>
+//tabla
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of productos">
+        <td>{{ producto.id_producto }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>S/. {{ producto.precio }}</td>
+        <td>{{ producto.stock }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm me-2"
+            (click)="editarProducto(producto)"
+          >
+            Editar
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="eliminarProducto(producto.id_producto)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
