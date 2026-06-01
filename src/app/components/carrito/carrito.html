@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Carrito</h2>
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of carrito; let i = index">
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>S/. {{ producto.precio }}</td>
+        <td>
+          S/. {{ producto.precio * producto.cantidad }}
+        </td>
+        <td>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="eliminar(i)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 class="mt-4">
+    Total: S/. {{ total }}
+  </h3>
+</div>

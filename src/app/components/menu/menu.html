@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Menú</h2>
+  <div *ngIf="cargando">
+    <h4>Cargando productos...</h4>
+  </div>
+  <div class="row" *ngIf="!cargando">
+    <div
+      class="col-md-4 mb-4"
+      *ngFor="let producto of productos"
+    >
+      <div class="card shadow h-100">
+        <img
+          [src]="'http://localhost:3000/uploads/' + producto.imagen"
+          class="card-img-top"
+        >
+        <div class="card-body">
+          <h5>{{ producto.nombre }}</h5>
+          <p>{{ producto.descripcion }}</p>
+          <h6>S/. {{ producto.precio }}</h6>
+          <p>
+            Stock: {{ producto.stock }}
+          </p>
+          //CANTIDAD
+          <div
+            class="d-flex justify-content-center align-items-center mb-3"
+          >
+            <button
+              class="btn btn-dark"
+              (click)="disminuir(producto)"
+            >
+              -
+            </button>
+            <span class="mx-3">
+              {{ producto.cantidad }}
+            </span>
+            <button
+              class="btn btn-dark"
+              (click)="aumentar(producto)"
+            >
+              +
+            </button>
+          </div>
+          <button
+            class="btn btn-success w-100"
+            (click)="agregar(producto)"
+          >
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
