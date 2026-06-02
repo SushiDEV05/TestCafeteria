@@ -1,6 +1,11 @@
 <div class="container mt-5">
-  <h2 class="mb-4">Carrito</h2>
+
+  <h2 class="mb-4">
+    Carrito
+  </h2>
+
   <table class="table table-bordered">
+
     <thead class="table-dark">
       <tr>
         <th>Producto</th>
@@ -10,26 +15,119 @@
         <th>Acción</th>
       </tr>
     </thead>
+
     <tbody>
+
       <tr *ngFor="let producto of carrito; let i = index">
+
         <td>{{ producto.nombre }}</td>
+
         <td>{{ producto.cantidad }}</td>
-        <td>S/. {{ producto.precio }}</td>
+
+        <td>
+          S/. {{ producto.precio }}
+        </td>
+
         <td>
           S/. {{ producto.precio * producto.cantidad }}
         </td>
+
         <td>
+
           <button
             class="btn btn-danger btn-sm"
             (click)="eliminar(i)"
           >
             Eliminar
           </button>
+
         </td>
+
       </tr>
+
     </tbody>
+
   </table>
+
   <h3 class="mt-4">
     Total: S/. {{ total }}
   </h3>
+
+  <div class="text-end mt-4">
+
+    <button
+      class="btn btn-success btn-lg"
+      (click)="mostrarFormularioCliente()"
+    >
+      Finalizar Compra
+    </button>
+
+  </div>
+
+  <div
+    *ngIf="mostrarFormulario"
+    class="card mt-4 shadow p-4"
+  >
+
+    <h4 class="mb-4">
+      Datos del Cliente
+    </h4>
+
+    <div class="mb-3">
+      <label class="form-label">
+        Nombre
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="cliente.nombre"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">
+        Teléfono
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="cliente.telefono"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">
+        Correo
+      </label>
+
+      <input
+        type="email"
+        class="form-control"
+        [(ngModel)]="cliente.correo"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">
+        Dirección
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="cliente.direccion"
+      >
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="finalizarCompra()"
+    >
+      Confirmar Compra
+    </button>
+
+  </div>
+
 </div>
