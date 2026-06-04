@@ -49,9 +49,9 @@ router.post('/', async (req, res) => {
         /* DETALLE */
         for (const producto of carrito) {
             await sql.query`
-                INSERT INTO detalle_pedido
+                INSERT INTO detalle_venta
                 (
-                    id_pedido,
+                    id_venta,
                     id_producto,
                     cantidad,
                     precio_unitario,

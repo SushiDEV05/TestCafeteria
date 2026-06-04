@@ -27,7 +27,7 @@ export class Carrito implements OnInit {
   constructor(
     private cartService: CartService,
     private ventaService: VentaService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.obtenerCarrito();
@@ -47,35 +47,31 @@ export class Carrito implements OnInit {
     this.mostrarFormulario = true;
   }
 
- finalizarCompra() {
+  finalizarCompra() {
+    const venta = {
+      cliente: this.cliente,
+      carrito: this.carrito,
+      total: this.total
+    };
 
-  alert('ENTRO A FINALIZAR COMPRA');
-
-  const venta = {
-    cliente: this.cliente,
-    carrito: this.carrito,
-    total: this.total
-  };
-
-  console.log('VENTA A ENVIAR', venta);
-
-  this.ventaService.registrarVenta(venta)
-    .subscribe({
-      next: (respuesta: any) => {
-
-        alert('LLEGO RESPUESTA DEL BACKEND');
-
-        console.log(respuesta);
-
-      },
-
-      error: (error) => {
-
-        alert('ERROR DEL BACKEND');
-
-        console.log(error);
-
-      }
-    });
-}
+    this.ventaService.registrarVenta(venta)
+      .subscribe({
+        next: (respuesta: any) => {
+          alert('¡Compra confirmada con éxito!');
+          this.cartService.limpiarCarrito();
+          this.obtenerCarrito();
+          this.mostrarFormulario = false;
+          this.cliente = {
+            nombre: '',
+            telefono: '',
+            correo: '',
+            direccion: '',
+          };
+        },
+        error: (error) => {
+          alert('Hubo un error al procesar la compra.');
+          console.error(error);
+        }
+      });
+  }
 }

@@ -24,6 +24,9 @@ export class CartService {
   eliminarProducto(index: number) {
     this.items.splice(index, 1);
   }
+  limpiarCarrito() {
+    this.items = [];
+  }
   obtenerTotal() {
     return this.items.reduce(
       (total, producto) =>
