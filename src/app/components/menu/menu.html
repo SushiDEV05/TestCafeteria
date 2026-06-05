@@ -1,53 +1,50 @@
-<div class="container mt-5">
-  <h2 class="mb-4">Menú</h2>
-  <div *ngIf="cargando">
-    <h4>Cargando productos...</h4>
-  </div>
-  <div class="row" *ngIf="!cargando">
-    <div
-      class="col-md-4 mb-4"
-      *ngFor="let producto of productos"
-    >
-      <div class="card shadow h-100">
-        <img
-          [src]="'http://localhost:3000/uploads/' + producto.imagen"
-          class="card-img-top"
-        >
-        <div class="card-body">
-          <h5>{{ producto.nombre }}</h5>
-          <p>{{ producto.descripcion }}</p>
-          <h6>S/. {{ producto.precio }}</h6>
-          <p>
-            Stock: {{ producto.stock }}
-          </p>
-          //CANTIDAD
-          <div
-            class="d-flex justify-content-center align-items-center mb-3"
+<div class="menu-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+      <h1 class="menu-page-title">☕ Nuestro Menú</h1>
+      <p class="menu-page-subtitle">Elige tus productos favoritos y añádelos al carrito</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="cargando" class="menu-loading">
+      <div class="warm-spinner"></div>
+      <span>Cargando productos...</span>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="row g-4" *ngIf="!cargando">
+      <div
+        class="col-sm-6 col-lg-4 fade-in-up"
+        *ngFor="let producto of productos"
+      >
+        <div class="product-card">
+          <img
+            [src]="'http://localhost:3000/uploads/' + producto.imagen"
+            class="product-card-img"
+            [alt]="producto.nombre"
           >
-            <button
-              class="btn btn-dark"
-              (click)="disminuir(producto)"
-            >
-              -
-            </button>
-            <span class="mx-3">
-              {{ producto.cantidad }}
-            </span>
-            <button
-              class="btn btn-dark"
-              (click)="aumentar(producto)"
-            >
-              +
+          <div class="product-card-body">
+            <h5 class="product-name">{{ producto.nombre }}</h5>
+            <p class="product-desc">{{ producto.descripcion }}</p>
+            <div class="product-price">S/. {{ producto.precio }}</div>
+            <p class="product-stock">Stock: <span>{{ producto.stock }}</span></p>
+
+            <!-- Control de cantidad -->
+            <div class="qty-control">
+              <button class="qty-btn" (click)="disminuir(producto)">−</button>
+              <span class="qty-value">{{ producto.cantidad }}</span>
+              <button class="qty-btn" (click)="aumentar(producto)">+</button>
+            </div>
+
+            <button class="btn-add-cart" (click)="agregar(producto)">
+              🛒 Agregar al carrito
             </button>
           </div>
-          <button
-            class="btn btn-success w-100"
-            (click)="agregar(producto)"
-          >
-            Agregar al carrito
-          </button>
         </div>
       </div>
     </div>
+
   </div>
 </div>

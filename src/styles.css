@@ -1,1 +1,223 @@
-/* You can add global styles to this file, and also import other style files */
+/* ===================================================
+   DYNASTIA ORDER — Global Design System
+   Paleta: Colores cálidos, elegantes y modernos
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+/* ── Variables globales ── */
+:root {
+  --warm-cream:    #FDF6EE;
+  --warm-sand:     #F5E6D0;
+  --warm-amber:    #E8A045;
+  --warm-amber-lt: #F5C274;
+  --warm-amber-dk: #C47B1A;
+  --warm-terra:    #C0532A;
+  --warm-terra-lt: #D9704A;
+  --warm-brown:    #6B3D1E;
+  --warm-brown-dk: #3D1F0A;
+  --warm-muted:    #9C7B5E;
+  --warm-border:   #E8D5C0;
+  --warm-success:  #5A8A5E;
+  --warm-danger:   #B83A2E;
+  --warm-info:     #5A7FA0;
+
+  --radius-sm:  0.5rem;
+  --radius-md:  0.875rem;
+  --radius-lg:  1.25rem;
+  --radius-xl:  2rem;
+
+  --shadow-sm:  0 2px 8px rgba(107, 61, 30, 0.08);
+  --shadow-md:  0 4px 20px rgba(107, 61, 30, 0.12);
+  --shadow-lg:  0 8px 40px rgba(107, 61, 30, 0.18);
+
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--warm-cream);
+  color: var(--warm-brown-dk);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Tipografía ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: var(--warm-brown);
+  letter-spacing: -0.02em;
+}
+
+.display-title {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--warm-sand); }
+::-webkit-scrollbar-thumb { background: var(--warm-amber); border-radius: 3px; }
+
+/* ── Botones reutilizables ── */
+.btn-warm {
+  background: linear-gradient(135deg, var(--warm-amber) 0%, var(--warm-amber-dk) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(196, 123, 26, 0.3);
+}
+.btn-warm:hover {
+  background: linear-gradient(135deg, var(--warm-amber-dk) 0%, var(--warm-brown) 100%);
+  box-shadow: 0 4px 16px rgba(196, 123, 26, 0.4);
+  transform: translateY(-1px);
+  color: #fff;
+}
+.btn-warm-outline {
+  background: transparent;
+  color: var(--warm-amber-dk);
+  border: 1.5px solid var(--warm-amber);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.btn-warm-outline:hover {
+  background: var(--warm-amber);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── Cards ── */
+.warm-card {
+  background: #fff;
+  border: 1px solid var(--warm-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+.warm-card:hover { box-shadow: var(--shadow-md); }
+
+/* ── Form Controls ── */
+.form-control, .form-select {
+  border: 1.5px solid var(--warm-border) !important;
+  border-radius: var(--radius-sm) !important;
+  background-color: #fff !important;
+  color: var(--warm-brown-dk) !important;
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition);
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--warm-amber) !important;
+  box-shadow: 0 0 0 3px rgba(232, 160, 69, 0.2) !important;
+  outline: none;
+}
+.form-label {
+  color: var(--warm-brown);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+/* ── Badge ── */
+.badge-warm {
+  background: linear-gradient(135deg, var(--warm-amber) 0%, var(--warm-amber-dk) 100%);
+  color: #fff;
+  border-radius: 2rem;
+  padding: 0.3em 0.85em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* ── Table ── */
+.warm-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+.warm-table thead tr {
+  background: linear-gradient(135deg, var(--warm-brown) 0%, var(--warm-brown-dk) 100%);
+  color: var(--warm-cream);
+}
+.warm-table thead th {
+  padding: 0.9rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+}
+.warm-table tbody tr {
+  border-bottom: 1px solid var(--warm-border);
+  transition: var(--transition);
+}
+.warm-table tbody tr:hover {
+  background: var(--warm-sand);
+}
+.warm-table tbody td {
+  padding: 0.85rem 1.1rem;
+  border: none;
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+/* ── Alertas ── */
+.alert-warm {
+  background: rgba(232, 160, 69, 0.12);
+  border: 1px solid rgba(232, 160, 69, 0.35);
+  color: var(--warm-amber-dk);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+}
+
+/* ── Section header ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, var(--warm-brown) 0%, var(--warm-brown-dk) 100%);
+  color: var(--warm-cream);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.section-header h5 {
+  color: var(--warm-cream);
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── Loading spinner ── */
+.warm-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--warm-border);
+  border-top-color: var(--warm-amber);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Animaciones ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp 0.45s ease forwards; }

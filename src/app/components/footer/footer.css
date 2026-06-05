@@ -1,0 +1,30 @@
+/* ── Footer ── */
+.warm-footer {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  border-top: 1px solid rgba(232, 160, 69, 0.2);
+  padding: 1.25rem 0;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.footer-icon { font-size: 1.3rem; }
+.footer-name {
+  font-family: 'Playfair Display', serif;
+  color: #FDF6EE;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.footer-copy {
+  color: rgba(253, 246, 238, 0.5);
+  font-size: 0.78rem;
+  margin: 0;
+}

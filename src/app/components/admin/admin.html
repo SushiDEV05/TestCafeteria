@@ -1,88 +1,83 @@
-<div class="container mt-5">
-  <h2 class="mb-4">Panel Administrador</h2>
-//formulario
-  <div class="card p-4 shadow mb-5">
-    <h4 class="mb-3">
-      {{ editando ? 'Editar Producto' : 'Agregar Producto' }}
-    </h4>
-    <input
-      type="text"
-      class="form-control mb-3"
-      placeholder="Nombre"
-      [(ngModel)]="nuevoProducto.nombre"
-    >
-    <input
-      type="text"
-      class="form-control mb-3"
-      placeholder="Descripción"
-      [(ngModel)]="nuevoProducto.descripcion"
-    >
-    <input
-      type="number"
-      class="form-control mb-3"
-      placeholder="Precio"
-      [(ngModel)]="nuevoProducto.precio"
-    >
-    <input
-      type="file"
-      class="form-control mb-3"
-      accept=".jpg,.jpeg,.png"
-      (change)="seleccionarImagen($event)"
-    >
-    <input
-      type="number"
-      class="form-control mb-3"
-      placeholder="Stock"
-      [(ngModel)]="nuevoProducto.stock"
-    >
-    <button
-      class="btn btn-dark me-2"
-      (click)="agregarProducto()"
-    >
-      {{ editando ? 'Actualizar' : 'Agregar' }}
-    </button>
-    <button
-      *ngIf="editando"
-      class="btn btn-secondary"
-      (click)="cancelarEdicion()"
-    >
-      Cancelar
-    </button>
+<div class="admin-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+      <h1 class="admin-page-title">🛠 Panel Administrador</h1>
+    </div>
+
+    <!-- Formulario de Producto -->
+    <div class="admin-form-card fade-in-up">
+      <div class="admin-form-header">
+        {{ editando ? '✏️ Editar Producto' : '➕ Agregar Producto' }}
+      </div>
+      <div class="admin-form-body">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Ej: Café Latte" [(ngModel)]="nuevoProducto.nombre">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" placeholder="Breve descripción" [(ngModel)]="nuevoProducto.descripcion">
+          </div>
+          <div class="col-sm-4">
+            <label class="form-label">Precio (S/.)</label>
+            <input type="number" class="form-control" placeholder="0.00" [(ngModel)]="nuevoProducto.precio">
+          </div>
+          <div class="col-sm-4">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-control" placeholder="0" [(ngModel)]="nuevoProducto.stock">
+          </div>
+          <div class="col-sm-4">
+            <label class="form-label">Imagen</label>
+            <input type="file" class="form-control" accept=".jpg,.jpeg,.png" (change)="seleccionarImagen($event)">
+          </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn-admin-save" (click)="agregarProducto()">
+            {{ editando ? '✓ Actualizar' : '+ Agregar' }}
+          </button>
+          <button *ngIf="editando" class="btn-admin-cancel" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Productos -->
+    <div class="admin-table-card fade-in-up">
+      <div class="admin-form-header">
+        📦 Productos Registrados
+      </div>
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of productos">
+              <td><span class="admin-id">#{{ producto.id_producto }}</span></td>
+              <td style="font-weight: 600;">{{ producto.nombre }}</td>
+              <td style="color: #9C7B5E; font-size: 0.87rem;">{{ producto.descripcion }}</td>
+              <td><span class="admin-price">S/. {{ producto.precio }}</span></td>
+              <td><span class="admin-stock">{{ producto.stock }}</span></td>
+              <td>
+                <button class="btn-edit-sm" (click)="editarProducto(producto)">✏️ Editar</button>
+                <button class="btn-delete-sm" (click)="eliminarProducto(producto.id_producto)">🗑 Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
-//tabla
-  <table class="table table-bordered table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Precio</th>
-        <th>Stock</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let producto of productos">
-        <td>{{ producto.id_producto }}</td>
-        <td>{{ producto.nombre }}</td>
-        <td>{{ producto.descripcion }}</td>
-        <td>S/. {{ producto.precio }}</td>
-        <td>{{ producto.stock }}</td>
-        <td>
-          <button
-            class="btn btn-warning btn-sm me-2"
-            (click)="editarProducto(producto)"
-          >
-            Editar
-          </button>
-          <button
-            class="btn btn-danger btn-sm"
-            (click)="eliminarProducto(producto.id_producto)"
-          >
-            Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

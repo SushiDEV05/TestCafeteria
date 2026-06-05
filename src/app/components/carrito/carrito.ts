@@ -18,6 +18,7 @@ export class Carrito implements OnInit {
   total = 0;
 
   mostrarFormulario = false;
+  mostrarBoleta = false;
 
   cliente = {
     nombre: '',
@@ -25,6 +26,14 @@ export class Carrito implements OnInit {
     correo: '',
     direccion: '',
   };
+
+  // Datos guardados de la boleta una vez confirmada la compra
+  boletaData: {
+    cliente: { nombre: string; telefono: string; correo: string; direccion: string };
+    items: any[];
+    total: number;
+    fechaHora: string;
+  } | null = null;
 
   constructor(
     private cartService: CartService,
@@ -65,21 +74,40 @@ export class Carrito implements OnInit {
     this.ventaService.registrarVenta(venta)
       .subscribe({
         next: (respuesta: any) => {
-          alert('¡Compra confirmada con éxito!');
+          // Guardar snapshot de la boleta antes de limpiar
+          const ahora = new Date();
+          this.boletaData = {
+            cliente: { ...this.cliente },
+            items: this.carrito.map(p => ({ ...p })),
+            total: this.total,
+            fechaHora: ahora.toLocaleString('es-PE', {
+              dateStyle: 'full',
+              timeStyle: 'short'
+            })
+          };
+
+          // Limpiar carrito y formulario
           this.cartService.limpiarCarrito();
           this.obtenerCarrito();
           this.mostrarFormulario = false;
-          this.cliente = {
-            nombre: '',
-            telefono: '',
-            correo: '',
-            direccion: '',
-          };
+          this.cliente = { nombre: '', telefono: '', correo: '', direccion: '' };
+
+          // Mostrar boleta
+          this.mostrarBoleta = true;
         },
         error: (error) => {
           alert('Hubo un error al procesar la compra.');
           console.error(error);
         }
       });
+  }
+
+  imprimirBoleta() {
+    window.print();
+  }
+
+  cerrarBoleta() {
+    this.mostrarBoleta = false;
+    this.boletaData = null;
   }
 }

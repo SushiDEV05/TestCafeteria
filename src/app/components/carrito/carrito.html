@@ -1,133 +1,186 @@
-<div class="container mt-5">
+<div class="carrito-page">
+  <div class="container" style="max-width: 860px;">
 
-  <h2 class="mb-4">
-    Carrito
-  </h2>
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+      <h1 class="carrito-title">🛒 Mi Carrito</h1>
+    </div>
 
-  <table class="table table-bordered">
+    <!-- Carrito vacío -->
+    <div *ngIf="carrito.length === 0 && !mostrarBoleta" class="carrito-empty fade-in-up">
+      <span class="empty-icon">🛍️</span>
+      <p>Tu carrito está vacío. ¡Explora el menú y añade productos!</p>
+      <a routerLink="/menu" class="btn-warm" style="text-decoration:none; display:inline-block;">
+        Ver Menú →
+      </a>
+    </div>
 
-    <thead class="table-dark">
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio</th>
-        <th>Subtotal</th>
-        <th>Acción</th>
-      </tr>
-    </thead>
+    <!-- Tabla de productos -->
+    <div *ngIf="carrito.length > 0 && !mostrarBoleta" class="fade-in-up">
 
-    <tbody>
+      <div class="carrito-table-wrap">
+        <table class="carrito-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unit.</th>
+              <th>Subtotal</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of carrito; let i = index">
+              <td><span class="cart-product-name">{{ producto.nombre }}</span></td>
+              <td><span class="cart-qty-badge">{{ producto.cantidad }}</span></td>
+              <td><span class="cart-price">S/. {{ producto.precio }}</span></td>
+              <td><span class="cart-subtotal">S/. {{ producto.precio * producto.cantidad }}</span></td>
+              <td>
+                <button class="btn-remove" (click)="eliminar(i)">✕ Quitar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-      <tr *ngFor="let producto of carrito; let i = index">
+      <!-- Total + Checkout -->
+      <div class="carrito-total-bar">
+        <div>
+          <div class="total-label">Total a pagar</div>
+          <div class="total-amount">S/. {{ total }}</div>
+        </div>
+        <button class="btn-checkout" (click)="mostrarFormularioCliente()">
+          ✓ Finalizar Compra
+        </button>
+      </div>
 
-        <td>{{ producto.nombre }}</td>
+    </div>
 
-        <td>{{ producto.cantidad }}</td>
-
-        <td>
-          S/. {{ producto.precio }}
-        </td>
-
-        <td>
-          S/. {{ producto.precio * producto.cantidad }}
-        </td>
-
-        <td>
-
-          <button
-            class="btn btn-danger btn-sm"
-            (click)="eliminar(i)"
-          >
-            Eliminar
+    <!-- Formulario Cliente -->
+    <div *ngIf="mostrarFormulario && !mostrarBoleta" class="cliente-form-card fade-in-up">
+      <div class="cliente-form-header">
+        📋 Datos del Cliente
+      </div>
+      <div class="cliente-form-body">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Ej: Juan Pérez" [(ngModel)]="cliente.nombre">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Teléfono</label>
+            <input type="text" class="form-control" placeholder="Ej: 987654321" [(ngModel)]="cliente.telefono">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Correo</label>
+            <input type="email" class="form-control" placeholder="Ej: juan@email.com" [(ngModel)]="cliente.correo">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Dirección</label>
+            <input type="text" class="form-control" placeholder="Ej: Av. Principal 123" [(ngModel)]="cliente.direccion">
+          </div>
+        </div>
+        <div class="mt-4">
+          <button class="btn-confirm" (click)="finalizarCompra()">
+            ✓ Confirmar Compra
           </button>
+        </div>
+      </div>
+    </div>
 
-        </td>
+    <!-- ════════════════════════════════════════ -->
+    <!-- BOLETA DE CONSUMO                        -->
+    <!-- ════════════════════════════════════════ -->
+    <div *ngIf="mostrarBoleta && boletaData" class="boleta-overlay fade-in-up">
 
-      </tr>
+      <!-- Panel de acciones (no se imprime) -->
+      <div class="boleta-actions no-print">
+        <button class="btn-imprimir" (click)="imprimirBoleta()">
+          🖨️ Imprimir Boleta
+        </button>
+        <button class="btn-cerrar-boleta" (click)="cerrarBoleta()">
+          ✕ Cerrar
+        </button>
+      </div>
 
-    </tbody>
+      <!-- Boleta imprimible -->
+      <div class="boleta-paper" id="boletaImprimir">
 
-  </table>
+        <!-- Encabezado -->
+        <div class="boleta-header">
+          <div class="boleta-logo">☕</div>
+          <h2 class="boleta-empresa">Cafetería Dinastia</h2>
+          <p class="boleta-subtitulo">DinastiaOrder · Sistema de Pedidos</p>
+          <div class="boleta-divider"></div>
+          <h3 class="boleta-titulo-doc">BOLETA DE CONSUMO</h3>
+          <p class="boleta-fecha">{{ boletaData.fechaHora }}</p>
+        </div>
 
-  <h3 class="mt-4">
-    Total: S/. {{ total }}
-  </h3>
+        <!-- Datos del cliente -->
+        <div class="boleta-section">
+          <h4 class="boleta-section-title">DATOS DEL CLIENTE</h4>
+          <table class="boleta-info-table">
+            <tr>
+              <td class="boleta-info-label">Nombre:</td>
+              <td class="boleta-info-value">{{ boletaData.cliente.nombre }}</td>
+            </tr>
+            <tr>
+              <td class="boleta-info-label">Teléfono:</td>
+              <td class="boleta-info-value">{{ boletaData.cliente.telefono }}</td>
+            </tr>
+            <tr>
+              <td class="boleta-info-label">Correo:</td>
+              <td class="boleta-info-value">{{ boletaData.cliente.correo }}</td>
+            </tr>
+            <tr>
+              <td class="boleta-info-label">Dirección:</td>
+              <td class="boleta-info-value">{{ boletaData.cliente.direccion }}</td>
+            </tr>
+          </table>
+        </div>
 
-  <div class="text-end mt-4">
+        <div class="boleta-divider"></div>
 
-    <button
-      class="btn btn-success btn-lg"
-      (click)="mostrarFormularioCliente()"
-    >
-      Finalizar Compra
-    </button>
+        <!-- Detalle de productos -->
+        <div class="boleta-section">
+          <h4 class="boleta-section-title">DETALLE DE CONSUMO</h4>
+          <table class="boleta-productos-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th class="text-center">Cant.</th>
+                <th class="text-right">P. Unit.</th>
+                <th class="text-right">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of boletaData.items">
+                <td>{{ item.nombre }}</td>
+                <td class="text-center">{{ item.cantidad }}</td>
+                <td class="text-right">S/. {{ item.precio }}</td>
+                <td class="text-right">S/. {{ item.precio * item.cantidad }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="boleta-divider"></div>
+
+        <!-- Total -->
+        <div class="boleta-total-row">
+          <span class="boleta-total-label">TOTAL PAGADO</span>
+          <span class="boleta-total-amount">S/. {{ boletaData.total }}</span>
+        </div>
+
+        <!-- Pie -->
+        <div class="boleta-footer">
+          <div class="boleta-divider"></div>
+          <p>¡Gracias por su preferencia!</p>
+          <p class="boleta-footer-small">Cafetería Dinastia · El Callao, Perú</p>
+        </div>
+
+      </div>
+    </div>
 
   </div>
-
-  <div
-    *ngIf="mostrarFormulario"
-    class="card mt-4 shadow p-4"
-  >
-
-    <h4 class="mb-4">
-      Datos del Cliente
-    </h4>
-
-    <div class="mb-3">
-      <label class="form-label">
-        Nombre
-      </label>
-
-      <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="cliente.nombre"
-      >
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">
-        Teléfono
-      </label>
-
-      <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="cliente.telefono"
-      >
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">
-        Correo
-      </label>
-
-      <input
-        type="email"
-        class="form-control"
-        [(ngModel)]="cliente.correo"
-      >
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">
-        Dirección
-      </label>
-
-      <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="cliente.direccion"
-      >
-    </div>
-
-    <button
-      class="btn btn-primary"
-      (click)="finalizarCompra()"
-    >
-      Confirmar Compra
-    </button>
-
-  </div>
-
 </div>

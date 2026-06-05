@@ -1,144 +1,108 @@
-<div class="container mt-5 mb-5">
+<div class="admin-page">
+  <div class="container">
 
-  <!-- Header del Panel -->
-  <div class="panel-header mb-4 p-4 rounded-4 shadow-sm">
-    <div class="d-flex align-items-center gap-3">
-      <span class="panel-icon">👥</span>
-      <div>
-        <h2 class="fw-bold mb-0 text-dark">{{ titulo }}</h2>
-        <p class="text-muted mb-0 small">
-          Panel de control — Rol activo: 
-          <span class="badge"
-            [class.bg-warning]="rolActivo === 'super'"
-            [class.bg-dark]="rolActivo === 'administrador'"
-          >
-            {{ rolActivo | titlecase }}
-          </span>
-        </p>
+    <!-- Header del Panel -->
+    <div class="mb-4 fade-in-up">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span style="font-size:2rem;">👥</span>
+        <div>
+          <h1 class="admin-page-title" style="margin-bottom:0.1rem;">{{ titulo }}</h1>
+          <p style="color:#9C7B5E; font-size:0.85rem; margin:0;">
+            Panel de control — Rol activo:
+            <span class="badge-warm" style="margin-left:0.3rem; font-size:0.72rem;">
+              {{ rolActivo | titlecase }}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Formulario de Agregar / Editar Usuario -->
-  <div class="card shadow-sm mb-5 border-0 rounded-4">
-    <div class="card-header bg-dark text-white rounded-top-4 py-3 px-4 d-flex align-items-center gap-2">
-      <span>{{ editando ? '✏️ Editar Usuario' : '➕ Nuevo Usuario' }}</span>
-    </div>
-    <div class="card-body p-4">
-      <div class="row g-3">
-
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Nombre Completo</label>
-          <input
-            type="text"
-            class="form-control rounded-3"
-            placeholder="Ej: Juan Pérez"
-            [(ngModel)]="nuevoUsuario.nombre"
-          >
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Correo Electrónico</label>
-          <input
-            type="email"
-            class="form-control rounded-3"
-            placeholder="Ej: juan@cafeteria.com"
-            [(ngModel)]="nuevoUsuario.correo"
-          >
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Contraseña</label>
-          <input
-            type="password"
-            class="form-control rounded-3"
-            placeholder="{{ editando ? 'Nueva contraseña' : 'Contraseña' }}"
-            [(ngModel)]="nuevoUsuario.contrasena"
-          >
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Rol</label>
-          <select class="form-select rounded-3" [(ngModel)]="nuevoUsuario.rol">
-            <option *ngFor="let r of rolesDisponibles" [value]="r">
-              {{ r | titlecase }}
-            </option>
-          </select>
-        </div>
-
+    <!-- Formulario Agregar / Editar -->
+    <div class="admin-form-card fade-in-up">
+      <div class="admin-form-header">
+        {{ editando ? '✏️ Editar Usuario' : '➕ Nuevo Usuario' }}
       </div>
-
-      <div class="mt-4 d-flex gap-2">
-        <button class="btn btn-dark px-4 rounded-3 fw-semibold" (click)="guardarUsuario()">
-          {{ editando ? 'Actualizar Usuario' : 'Crear Usuario' }}
-        </button>
-        <button *ngIf="editando" class="btn btn-outline-secondary px-4 rounded-3" (click)="cancelarEdicion()">
-          Cancelar
-        </button>
+      <div class="admin-form-body">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" placeholder="Ej: Juan Pérez" [(ngModel)]="nuevoUsuario.nombre">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" placeholder="Ej: juan@cafeteria.com" [(ngModel)]="nuevoUsuario.correo">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Contraseña</label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="{{ editando ? 'Nueva contraseña' : 'Contraseña' }}"
+              [(ngModel)]="nuevoUsuario.contrasena"
+            >
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Rol</label>
+            <select class="form-select" [(ngModel)]="nuevoUsuario.rol">
+              <option *ngFor="let r of rolesDisponibles" [value]="r">{{ r | titlecase }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn-admin-save" (click)="guardarUsuario()">
+            {{ editando ? '✓ Actualizar Usuario' : '+ Crear Usuario' }}
+          </button>
+          <button *ngIf="editando" class="btn-admin-cancel" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Tabla de Usuarios -->
-  <div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-dark text-white rounded-top-4 py-3 px-4">
-      📋 Lista de Usuarios Registrados
-    </div>
-    <div class="card-body p-0">
+    <!-- Tabla de Usuarios -->
+    <div class="admin-table-card fade-in-up">
+      <div class="admin-form-header">📋 Usuarios Registrados</div>
 
       <!-- Estado vacío -->
-      <div *ngIf="usuarios.length === 0" class="text-center py-5 text-muted">
-        <div style="font-size: 3rem;">📭</div>
-        <p class="mt-2">No hay usuarios registrados todavía.</p>
+      <div *ngIf="usuarios.length === 0" class="carrito-empty" style="padding: 3rem 2rem;">
+        <span class="empty-icon">📭</span>
+        <p>No hay usuarios registrados todavía.</p>
       </div>
 
       <!-- Tabla -->
       <div *ngIf="usuarios.length > 0" class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
+        <table class="admin-table">
+          <thead>
             <tr>
-              <th class="ps-4">ID</th>
+              <th>ID</th>
               <th>Nombre</th>
               <th>Correo</th>
               <th>Rol</th>
-              <th class="text-center pe-4">Acciones</th>
+              <th style="text-align:center;">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let user of usuarios">
-              <td class="ps-4 text-muted">#{{ user.id_usuario }}</td>
-              <td class="fw-semibold">{{ user.nombre }}</td>
-              <td class="text-muted">{{ user.correo }}</td>
+              <td><span class="admin-id">#{{ user.id_usuario }}</span></td>
+              <td style="font-weight:600;">{{ user.nombre }}</td>
+              <td style="color:#9C7B5E;">{{ user.correo }}</td>
               <td>
-                <span class="badge rounded-pill"
-                  [class.bg-dark]="user.rol === 'administrador'"
-                  [class.bg-secondary]="user.rol === 'empleado'"
+                <span
+                  class="badge-warm"
+                  [style.background]="user.rol === 'super' ? 'linear-gradient(135deg,#C47B1A,#E8A045)' : user.rol === 'administrador' ? 'linear-gradient(135deg,#3D1F0A,#6B3D1E)' : 'linear-gradient(135deg,#9C7B5E,#6B3D1E)'"
                 >
                   {{ user.rol | titlecase }}
                 </span>
               </td>
-              <td class="text-center pe-4">
-                <button
-                  class="btn btn-outline-dark btn-sm me-2 rounded-3"
-                  (click)="editarUsuario(user)"
-                  title="Editar usuario"
-                >
-                  ✏️ Editar
-                </button>
-                <button
-                  class="btn btn-outline-danger btn-sm rounded-3"
-                  (click)="eliminarUsuario(user.id_usuario)"
-                  title="Eliminar usuario"
-                >
-                  🗑️ Eliminar
-                </button>
+              <td style="text-align:center;">
+                <button class="btn-edit-sm" (click)="editarUsuario(user)" title="Editar">✏️ Editar</button>
+                <button class="btn-delete-sm" (click)="eliminarUsuario(user.id_usuario)" title="Eliminar">🗑 Eliminar</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-
     </div>
-  </div>
 
+  </div>
 </div>

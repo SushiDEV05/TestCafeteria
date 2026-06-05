@@ -1,64 +1,157 @@
-.panel-header {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  border-left: 5px solid #212529;
+/* ── Gestión de Usuarios — usa los mismos tokens que admin ── */
+
+/* Re-expone las mismas clases que admin.css para este componente */
+.admin-page {
+  padding: 2.5rem 0 4rem;
+  background: #FDF6EE;
+  min-height: 100vh;
 }
 
-.panel-icon {
-  font-size: 2.5rem;
-  line-height: 1;
+.admin-page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #6B3D1E, #C47B1A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.2rem;
 }
 
-.card {
+.admin-form-card {
+  background: #fff;
+  border: 1px solid #E8D5C0;
+  border-radius: 1.1rem;
   overflow: hidden;
+  box-shadow: 0 2px 14px rgba(107, 61, 30, 0.08);
+  margin-bottom: 2rem;
 }
-
-.card-header {
+.admin-form-header {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  color: #FDF6EE;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+.admin-form-body { padding: 1.5rem; }
 
-.table > thead > tr > th {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #6c757d;
-  border-bottom: 2px solid #dee2e6;
-}
-
-.table > tbody > tr {
-  transition: background-color 0.2s ease;
-}
-
-.table > tbody > tr:hover {
-  background-color: rgba(33, 37, 41, 0.04);
-}
-
-.btn-outline-dark:hover {
-  background-color: #212529;
+.btn-admin-save {
+  background: linear-gradient(135deg, #E8A045, #C47B1A);
   color: #fff;
+  border: none;
+  border-radius: 0.65rem;
+  padding: 0.65rem 1.6rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(196, 123, 26, 0.3);
+}
+.btn-admin-save:hover {
+  background: linear-gradient(135deg, #C47B1A, #6B3D1E);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(107, 61, 30, 0.35);
 }
 
-.badge {
-  font-size: 0.75rem;
-  padding: 0.4em 0.75em;
-  font-weight: 500;
-}
-
-.form-control, .form-select {
-  border: 1px solid #ced4da;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: #212529;
-  box-shadow: 0 0 0 0.25rem rgba(33, 37, 41, 0.15);
-}
-
-.btn {
+.btn-admin-cancel {
+  background: transparent;
+  color: #9C7B5E;
+  border: 1.5px solid #E8D5C0;
+  border-radius: 0.65rem;
+  padding: 0.65rem 1.3rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
+.btn-admin-cancel:hover { border-color: #C47B1A; color: #C47B1A; }
 
-.btn-dark:hover {
-  background-color: #000;
-  transform: translateY(-1px);
+.admin-table-card {
+  background: #fff;
+  border: 1px solid #E8D5C0;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(107, 61, 30, 0.08);
 }
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-table thead tr {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  color: #FDF6EE;
+}
+.admin-table thead th {
+  padding: 0.9rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: none;
+}
+.admin-table tbody tr {
+  border-bottom: 1px solid #F0E0CC;
+  transition: background 0.18s ease;
+}
+.admin-table tbody tr:last-child { border-bottom: none; }
+.admin-table tbody tr:hover { background: #FDF6EE; }
+.admin-table tbody td {
+  padding: 0.85rem 1.1rem;
+  border: none;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  color: #3D1F0A;
+}
+.admin-id { color: #9C7B5E; font-size: 0.82rem; }
+
+.badge-warm {
+  background: linear-gradient(135deg, #E8A045 0%, #C47B1A 100%);
+  color: #fff;
+  border-radius: 2rem;
+  padding: 0.3em 0.85em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.btn-edit-sm {
+  background: rgba(232, 160, 69, 0.12);
+  border: 1px solid rgba(232, 160, 69, 0.35);
+  color: #C47B1A;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin-right: 0.4rem;
+}
+.btn-edit-sm:hover { background: #E8A045; border-color: #E8A045; color: #fff; }
+
+.btn-delete-sm {
+  background: rgba(184, 58, 46, 0.1);
+  border: 1px solid rgba(184, 58, 46, 0.25);
+  color: #B83A2E;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.btn-delete-sm:hover { background: #B83A2E; border-color: #B83A2E; color: #fff; }
+
+.carrito-empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #9C7B5E;
+}
+.carrito-empty .empty-icon { font-size: 4rem; display: block; margin-bottom: 1rem; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp 0.45s ease forwards; }
