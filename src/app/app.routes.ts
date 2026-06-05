@@ -6,6 +6,7 @@ import { Carrito } from './components/carrito/carrito';
 import { Login } from './components/login/login';
 import { Admin } from './components/admin/admin';
 import { GestionUsuarios } from './components/gestion-usuarios/gestion-usuarios';
+import { VentasComponent } from './components/ventas/ventas';
 
 export const routes: Routes = [
 
@@ -21,6 +22,8 @@ export const routes: Routes = [
 
   { path: 'admin', component: Admin },
 
-  { path: 'gestion-usuarios', component: GestionUsuarios }
+  { path: 'gestion-usuarios', component: GestionUsuarios },
+
+  { path: 'ventas', component: VentasComponent }
 
 ];

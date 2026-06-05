@@ -1,6 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const { sql } = require('../db');
+
+router.get('/', async (req, res) => {
+    try {
+        const result = await sql.query`
+            SELECT v.id_venta, v.total, v.fecha, c.nombre AS cliente_nombre, c.telefono, c.correo, c.direccion 
+            FROM Venta v 
+            INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
+            ORDER BY v.id_venta DESC
+        `;
+        res.json(result.recordset);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+});
+
 router.post('/', async (req, res) => {
     console.log('POST /api/ventas RECIBIDO');
     console.log(req.body);

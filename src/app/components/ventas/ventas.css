@@ -1,0 +1,115 @@
+/* ── Estilos de la Vista de Ventas ── */
+
+.admin-page {
+  padding: 2.5rem 0 4rem;
+  background: #FDF6EE;
+  min-height: 100vh;
+}
+
+.admin-page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #6B3D1E, #C47B1A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.2rem;
+}
+
+.admin-table-card {
+  background: #fff;
+  border: 1px solid #E8D5C0;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(107, 61, 30, 0.08);
+}
+
+.admin-form-header {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  color: #FDF6EE;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table thead tr {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  color: #FDF6EE;
+}
+
+.admin-table thead th {
+  padding: 0.9rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.admin-table tbody tr {
+  border-bottom: 1px solid #F0E0CC;
+  transition: background 0.18s ease;
+}
+
+.admin-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+  background: #FDF6EE;
+}
+
+.admin-table tbody td {
+  padding: 0.85rem 1.1rem;
+  border: none;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  color: #3D1F0A;
+}
+
+.admin-id {
+  color: #9C7B5E;
+  font-size: 0.82rem;
+}
+
+.badge-warm {
+  background: linear-gradient(135deg, #E8A045 0%, #C47B1A 100%);
+  color: #fff;
+  border-radius: 2rem;
+  padding: 0.3em 0.85em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: inline-block;
+}
+
+.carrito-empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #9C7B5E;
+}
+
+.carrito-empty .empty-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.45s ease forwards;
+}
+
+/* Spinner is in global styles.css (.warm-spinner) */

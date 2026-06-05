@@ -14,4 +14,8 @@ export class VentaService {
     return this.http.post(this.apiUrl, data);
   }
 
+  getVentas() {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
 }

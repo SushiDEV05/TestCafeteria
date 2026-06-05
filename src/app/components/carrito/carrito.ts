@@ -65,6 +65,11 @@ export class Carrito implements OnInit {
   }
 
   finalizarCompra() {
+    if (!this.cliente.nombre || !this.cliente.telefono || !this.cliente.correo || !this.cliente.direccion) {
+      alert('Por favor, completa todos los datos del cliente antes de finalizar la compra.');
+      return;
+    }
+
     const venta = {
       cliente: this.cliente,
       carrito: this.carrito,
