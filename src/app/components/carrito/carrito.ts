@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CartService } from '../../services/carrito.service';
 import { VentaService } from '../../services/venta.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-carrito',
@@ -27,9 +29,15 @@ export class Carrito implements OnInit {
   constructor(
     private cartService: CartService,
     private ventaService: VentaService,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.obtenerCarrito();
   }
 

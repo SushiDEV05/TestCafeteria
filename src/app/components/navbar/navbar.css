@@ -1,0 +1,28 @@
+.navbar-nav .nav-link.active {
+  color: #fff !important;
+  font-weight: 600;
+  border-bottom: 2px solid #ffc107;
+  padding-bottom: 4px;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link {
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffc107 !important;
+}

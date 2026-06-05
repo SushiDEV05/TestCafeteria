@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -23,7 +25,21 @@ export class Admin {
     imagen: '',
     stock: 0
   };
-  constructor(private productService: ProductService) {
+  constructor(
+    private productService: ProductService,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    const activeRole = this.authService.getActiveRole();
+    if (activeRole === 'empleado') {
+      alert('Acceso denegado. No tienes permisos para administrar productos.');
+      this.router.navigate(['/inicio']);
+      return;
+    }
     this.obtenerProductos();
   }
   /* OBTENER PRODUCTOS */

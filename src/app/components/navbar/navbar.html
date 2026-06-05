@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm border-bottom border-secondary" *ngIf="isLoggedIn">
   <div class="container">
 
-    <a class="navbar-brand fw-bold" routerLink="/">
-      ☕ Cafetería Dinastia
+    <a class="navbar-brand fw-bold d-flex align-items-center" routerLink="/inicio">
+      <span class="me-2">☕</span> Cafetería Dinastia
     </a>
 
     <button
@@ -10,41 +10,89 @@
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <!-- Info de Rol Actual (Badge decorativo) -->
+        <li class="nav-item me-3">
+          <span class="badge bg-secondary px-2.5 py-1.5 text-uppercase fw-semibold" style="font-size: 0.75rem;">
+            Rol: {{ userRole }}
+          </span>
+        </li>
+
+        <!-- Selector de Control para Super User -->
+        <li class="nav-item dropdown me-3" *ngIf="userRole === 'super'">
+          <button
+            class="btn btn-outline-warning btn-sm dropdown-toggle fw-bold text-white shadow-sm px-3 py-1.5"
+            type="button"
+            id="roleDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            ⚙️ Controlar: {{ activeRole | titlecase }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark shadow-lg border-secondary" aria-labelledby="roleDropdown">
+            <li>
+              <button class="dropdown-item" type="button" (click)="cambiarRolActivo('super')" [class.active]="activeRole === 'super'">
+                Super (Todo)
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item" type="button" (click)="cambiarRolActivo('administrador')" [class.active]="activeRole === 'administrador'">
+                Vista Administrador
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item" type="button" (click)="cambiarRolActivo('empleado')" [class.active]="activeRole === 'empleado'">
+                Vista Empleado
+              </button>
+            </li>
+          </ul>
+        </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/">
+          <a class="nav-link px-3" routerLink="/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             Inicio
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/menu">
+          <a class="nav-link px-3" routerLink="/menu" routerLinkActive="active">
             Menú
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/carrito">
+          <a class="nav-link px-3" routerLink="/carrito" routerLinkActive="active">
             Carrito
           </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admin">
+        <li class="nav-item" *ngIf="activeRole === 'administrador' || activeRole === 'super'">
+          <a class="nav-link px-3" routerLink="/admin" routerLinkActive="active">
             Admin
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-danger" routerLink="/login">
-            Cerrar Sesión
+
+        <li class="nav-item" *ngIf="activeRole === 'administrador' || activeRole === 'super'">
+          <a class="nav-link px-3" routerLink="/gestion-usuarios" routerLinkActive="active">
+            👥 Gestión
           </a>
+        </li>
+
+
+        <li class="nav-item ms-lg-2">
+          <button class="btn btn-link nav-link text-danger fw-bold px-3 border-0 bg-transparent" (click)="cerrarSesion()">
+            Cerrar Sesión
+          </button>
         </li>
 
       </ul>

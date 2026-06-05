@@ -1,54 +1,103 @@
-<div class="container mt-5">
+<div class="login-wrapper">
+  <div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+      <div class="col-md-5">
+        <div class="card login-card shadow-lg border-0">
+          <div class="card-header text-center border-0 bg-transparent pt-4">
+            <div class="brand-icon mb-2">☕</div>
+            <h3 class="fw-bold text-dark">DinastiaOrder</h3>
+            <p class="text-muted small">Selecciona tu rol o introduce tus credenciales</p>
+          </div>
 
-  <div class="row justify-content-center">
+          <div class="card-body px-4 pb-4">
+            <!-- Tabs de Selección de Rol Rápida -->
+            <div class="role-selector mb-4">
+              <label class="form-label text-muted small fw-bold d-block text-center mb-2">
+                SELECCIONA ROL DE ACCESO
+              </label>
+              <div class="btn-group w-100" role="group">
+                <button 
+                  type="button" 
+                  class="btn btn-sm px-2 py-2 fw-semibold" 
+                  [class.btn-dark]="rolSeleccionado === 'administrador'"
+                  [class.btn-outline-dark]="rolSeleccionado !== 'administrador'"
+                  (click)="seleccionarRol('administrador')"
+                >
+                  Admin
+                </button>
+                <button 
+                  type="button" 
+                  class="btn btn-sm px-2 py-2 fw-semibold" 
+                  [class.btn-dark]="rolSeleccionado === 'empleado'"
+                  [class.btn-outline-dark]="rolSeleccionado !== 'empleado'"
+                  (click)="seleccionarRol('empleado')"
+                >
+                  Empleado
+                </button>
+                <button 
+                  type="button" 
+                  class="btn btn-sm px-2 py-2 fw-semibold" 
+                  [class.btn-dark]="rolSeleccionado === 'super'"
+                  [class.btn-outline-dark]="rolSeleccionado !== 'super'"
+                  (click)="seleccionarRol('super')"
+                >
+                  Super User
+                </button>
+              </div>
+            </div>
 
-    <div class="col-md-4">
+            <!-- Formulario -->
+            <form (ngSubmit)="iniciarSesion()">
+              <div class="form-floating mb-3">
+                <input
+                  type="email"
+                  id="usuarioInput"
+                  class="form-control rounded-3"
+                  placeholder="name@example.com"
+                  [(ngModel)]="usuario"
+                  name="usuario"
+                  required
+                >
+                <label for="usuarioInput">Correo Electrónico</label>
+              </div>
 
-      <div class="card shadow p-4">
+              <div class="form-floating mb-3">
+                <input
+                  type="password"
+                  id="passwordInput"
+                  class="form-control rounded-3"
+                  placeholder="Contraseña"
+                  [(ngModel)]="password"
+                  name="password"
+                  required
+                >
+                <label for="passwordInput">Contraseña</label>
+              </div>
 
-        <h2 class="text-center mb-4">
-          Login Administrador
-        </h2>
+              <!-- Ayuda de Credenciales Semilla -->
+              <div class="alert alert-warning text-center py-2 px-3 mb-4 small border-0 shadow-sm" style="font-size: 0.85rem; border-radius: 0.5rem; background-color: rgba(255, 193, 7, 0.15); color: #664d03;">
+                💡 
+                <span *ngIf="rolSeleccionado === 'administrador'">
+                  Credenciales BD: <strong>admin@cafeteria.com</strong> / <strong>1234</strong>
+                </span>
+                <span *ngIf="rolSeleccionado === 'empleado'">
+                  Credenciales BD: <strong>empleado@cafeteria.com</strong> / <strong>5678</strong>
+                </span>
+                <span *ngIf="rolSeleccionado === 'super'">
+                  Credenciales BD: <strong>super@cafeteria.com</strong> / <strong>super123</strong>
+                </span>
+              </div>
 
-        <div class="mb-3">
-
-          <label class="form-label">
-            Usuario
-          </label>
-
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="usuario"
-          >
-
+              <button
+                type="submit"
+                class="btn btn-dark w-100 py-3 fs-6 rounded-3 fw-bold btn-login shadow-sm"
+              >
+                Iniciar Sesión
+              </button>
+            </form>
+          </div>
         </div>
-
-        <div class="mb-3">
-
-          <label class="form-label">
-            Contraseña
-          </label>
-
-          <input
-            type="password"
-            class="form-control"
-            [(ngModel)]="password"
-          >
-
-        </div>
-
-        <button
-          class="btn btn-dark w-100"
-          (click)="iniciarSesion()"
-        >
-          Iniciar Sesión
-        </button>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CartService } from '../../services/carrito.service';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -15,9 +17,15 @@ export class Menu implements OnInit {
   cargando = true;
   constructor(
     private CartService: CartService,
-    private productService: ProductService
+    private productService: ProductService,
+    private authService: AuthService,
+    private router: Router
   ) {}
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.obtenerProductos();
   }
   obtenerProductos() {

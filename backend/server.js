@@ -6,6 +6,7 @@ const { conectarDB } = require('./db');
 const productosRoutes = require('./routes/productos');
 const pedidosRoutes = require('./routes/pedidos');
 const ventasRoutes = require('./routes/ventas');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/productos', productosRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/ventas', ventasRoutes);
+app.use('/api/auth', authRoutes);
 
 /* CONEXION BD */
 conectarDB();
