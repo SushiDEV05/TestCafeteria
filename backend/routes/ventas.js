@@ -1,6 +1,56 @@
 const express = require('express');
 const router = express.Router();
 const { sql } = require('../db');
+const ExcelJS = require('exceljs');
+
+router.get('/exportar', async (req, res) => {
+    try {
+        const result = await sql.query`
+            SELECT v.id_venta, v.total, v.fecha, c.nombre AS cliente_nombre, c.telefono, c.correo, c.direccion 
+            FROM Venta v 
+            INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
+            ORDER BY v.id_venta DESC
+        `;
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Ventas');
+
+        worksheet.columns = [
+            { header: 'ID Venta', key: 'id_venta', width: 10 },
+            { header: 'Fecha', key: 'fecha', width: 25 },
+            { header: 'Cliente', key: 'cliente_nombre', width: 30 },
+            { header: 'Teléfono', key: 'telefono', width: 15 },
+            { header: 'Correo', key: 'correo', width: 30 },
+            { header: 'Dirección', key: 'direccion', width: 30 },
+            { header: 'Total', key: 'total', width: 15 }
+        ];
+
+        result.recordset.forEach(venta => {
+            worksheet.addRow({
+                id_venta: venta.id_venta,
+                fecha: venta.fecha ? new Date(venta.fecha).toLocaleString() : 'N/A',
+                cliente_nombre: venta.cliente_nombre,
+                telefono: venta.telefono,
+                correo: venta.correo,
+                direccion: venta.direccion,
+                total: venta.total
+            });
+        });
+
+        // Estilos para la cabecera
+        worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        worksheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF9C7B5E' } };
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=Reporte_Ventas.xlsx');
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+});
 
 router.get('/', async (req, res) => {
     try {

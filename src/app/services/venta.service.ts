@@ -18,4 +18,8 @@ export class VentaService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+  exportarVentasExcel() {
+    return this.http.get(this.apiUrl + '/exportar', { responseType: 'blob' });
+  }
+
 }

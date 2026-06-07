@@ -2,7 +2,7 @@
   <div class="container">
 
     <!-- Header -->
-    <div class="mb-4 fade-in-up">
+    <div class="mb-4 fade-in-up" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
       <div style="display:flex; align-items:center; gap:0.75rem;">
         <span style="font-size:2rem;">🧾</span>
         <div>
@@ -11,6 +11,12 @@
             Registro de todas las ventas realizadas en la cafetería
           </p>
         </div>
+      </div>
+      <div>
+        <button class="admin-btn btn-primary" (click)="descargarExcel()" [disabled]="descargandoExcel || ventas.length === 0" style="background-color: #28a745; border-color: #28a745;">
+          <span *ngIf="!descargandoExcel">📥 Descargar Excel</span>
+          <span *ngIf="descargandoExcel">⏳ Generando...</span>
+        </button>
       </div>
     </div>
 
