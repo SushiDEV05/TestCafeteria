@@ -15,16 +15,10 @@
 
     <!-- Grid de productos -->
     <div class="row g-4" *ngIf="!cargando">
-      <div
-        class="col-sm-6 col-lg-4 fade-in-up"
-        *ngFor="let producto of productos"
-      >
+      <div class="col-sm-6 col-lg-4 fade-in-up" *ngFor="let producto of productos">
         <div class="product-card">
-          <img
-            [src]="'http://localhost:3000/uploads/' + producto.imagen"
-            class="product-card-img"
-            [alt]="producto.nombre"
-          >
+          <img [src]="'http://localhost:3000/uploads/' + producto.imagen" class="product-card-img"
+            [alt]="producto.nombre">
           <div class="product-card-body">
             <h5 class="product-name">{{ producto.nombre }}</h5>
             <p class="product-desc">{{ producto.descripcion }}</p>
@@ -45,6 +39,6 @@
         </div>
       </div>
     </div>
-
+    <footer style="font-size: 10px; text-align: center; color: gray;">COPYRIGHT Sushi® 2026</footer>
   </div>
 </div>

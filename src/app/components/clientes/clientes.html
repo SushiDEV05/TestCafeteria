@@ -1,0 +1,82 @@
+<div class="admin-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+      <h1 class="admin-page-title">👥 Panel de Clientes</h1>
+    </div>
+
+    <!-- Formulario de Cliente -->
+    <div class="admin-form-card fade-in-up">
+      <div class="admin-form-header">
+        {{ editando ? '✏️ Editar Cliente' : '➕ Agregar Cliente' }}
+      </div>
+      <div class="admin-form-body">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" placeholder="Ej: Juan Pérez" [(ngModel)]="nuevoCliente.nombre">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Teléfono</label>
+            <input type="text" class="form-control" placeholder="Ej: 999888777" [(ngModel)]="nuevoCliente.telefono">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" placeholder="juan@ejemplo.com" [(ngModel)]="nuevoCliente.correo">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label">Dirección</label>
+            <input type="text" class="form-control" placeholder="Av. Principal 123" [(ngModel)]="nuevoCliente.direccion">
+          </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn-admin-save" (click)="agregarCliente()">
+            {{ editando ? '✓ Actualizar' : '+ Agregar' }}
+          </button>
+          <button *ngIf="editando" class="btn-admin-cancel" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Clientes -->
+    <div class="admin-table-card fade-in-up">
+      <div class="admin-form-header">
+        👤 Clientes Registrados
+      </div>
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Dirección</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes">
+              <td><span class="admin-id">#{{ cliente.id_cliente }}</span></td>
+              <td style="font-weight: 600;">{{ cliente.nombre }}</td>
+              <td style="color: #9C7B5E; font-size: 0.87rem;">{{ cliente.telefono || '-' }}</td>
+              <td>{{ cliente.correo || '-' }}</td>
+              <td><span style="font-size: 0.85rem;">{{ cliente.direccion || '-' }}</span></td>
+              <td>
+                <button class="btn-edit-sm" (click)="editarCliente(cliente)">✏️ Editar</button>
+                <button class="btn-delete-sm" (click)="eliminarCliente(cliente.id_cliente)">🗑 Eliminar</button>
+              </td>
+            </tr>
+            <tr *ngIf="clientes.length === 0">
+              <td colspan="6" style="text-align: center; padding: 2rem;">No hay clientes registrados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+</div>

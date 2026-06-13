@@ -69,13 +69,15 @@ router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         await sql.query`
-            DELETE FROM Productos
-            WHERE id_producto = ${id}
+            DELETE FROM detalle_pedido WHERE id_producto = ${id};
+            DELETE FROM detalle_venta WHERE id_producto = ${id};
+            DELETE FROM Productos WHERE id_producto = ${id};
         `;
         res.json({
             mensaje: 'Producto eliminado'
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json(error);
     }
 });

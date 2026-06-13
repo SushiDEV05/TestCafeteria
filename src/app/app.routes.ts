@@ -7,6 +7,7 @@ import { Login } from './components/login/login';
 import { Admin } from './components/admin/admin';
 import { GestionUsuarios } from './components/gestion-usuarios/gestion-usuarios';
 import { VentasComponent } from './components/ventas/ventas';
+import { ClientesComponent } from './components/clientes/clientes';
 
 export const routes: Routes = [
 
@@ -24,6 +25,8 @@ export const routes: Routes = [
 
   { path: 'gestion-usuarios', component: GestionUsuarios },
 
-  { path: 'ventas', component: VentasComponent }
+  { path: 'ventas', component: VentasComponent },
+  
+  { path: 'clientes', component: ClientesComponent }
 
 ];

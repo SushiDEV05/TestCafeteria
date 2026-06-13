@@ -1,0 +1,162 @@
+/* ── Admin Panel ── */
+.admin-page {
+  padding: 2.5rem 0 4rem;
+  background: var(--warm-cream);
+  min-height: 100vh;
+}
+
+.admin-page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #6B3D1E, #C47B1A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.2rem;
+}
+
+/* Form card */
+.admin-form-card {
+  background: #fff;
+  border: 1px solid #E8D5C0;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(107, 61, 30, 0.08);
+  margin-bottom: 2rem;
+}
+.admin-form-header {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  color: #FDF6EE;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.admin-form-body {
+  padding: 1.5rem;
+}
+
+.admin-form-body .form-control {
+  margin-bottom: 0 !important;
+}
+
+/* File input */
+.admin-form-body input[type="file"].form-control {
+  background: #FDF6EE !important;
+  color: #9C7B5E !important;
+}
+
+/* Buttons */
+.btn-admin-save {
+  background: linear-gradient(135deg, #E8A045, #C47B1A);
+  color: #fff;
+  border: none;
+  border-radius: 0.65rem;
+  padding: 0.65rem 1.6rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(196, 123, 26, 0.3);
+}
+.btn-admin-save:hover {
+  background: linear-gradient(135deg, #C47B1A, #6B3D1E);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(107, 61, 30, 0.35);
+}
+
+.btn-admin-cancel {
+  background: transparent;
+  color: #9C7B5E;
+  border: 1.5px solid #E8D5C0;
+  border-radius: 0.65rem;
+  padding: 0.65rem 1.3rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-admin-cancel:hover {
+  border-color: #C47B1A;
+  color: #C47B1A;
+}
+
+/* Table */
+.admin-table-card {
+  background: #fff;
+  border: 1px solid #E8D5C0;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(107, 61, 30, 0.08);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-table thead tr {
+  background: linear-gradient(90deg, #3D1F0A, #6B3D1E);
+  color: #FDF6EE;
+}
+.admin-table thead th {
+  padding: 0.9rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: none;
+}
+.admin-table tbody tr {
+  border-bottom: 1px solid #F0E0CC;
+  transition: background 0.18s ease;
+}
+.admin-table tbody tr:last-child { border-bottom: none; }
+.admin-table tbody tr:hover { background: #FDF6EE; }
+.admin-table tbody td {
+  padding: 0.85rem 1.1rem;
+  border: none;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  color: #3D1F0A;
+}
+
+.admin-id { color: #9C7B5E; font-size: 0.82rem; }
+.admin-price { color: #C47B1A; font-weight: 700; }
+.admin-stock { color: #5A8A5E; font-weight: 600; }
+
+.btn-edit-sm {
+  background: rgba(232, 160, 69, 0.12);
+  border: 1px solid rgba(232, 160, 69, 0.35);
+  color: #C47B1A;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin-right: 0.4rem;
+}
+.btn-edit-sm:hover {
+  background: #E8A045;
+  border-color: #E8A045;
+  color: #fff;
+}
+
+.btn-delete-sm {
+  background: rgba(184, 58, 46, 0.1);
+  border: 1px solid rgba(184, 58, 46, 0.25);
+  color: #B83A2E;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.btn-delete-sm:hover {
+  background: #B83A2E;
+  border-color: #B83A2E;
+  color: #fff;
+}

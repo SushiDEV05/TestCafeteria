@@ -22,6 +22,8 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/api/auth', authRoutes);
+const clientesRoutes = require('./routes/clientes');
+app.use('/api/clientes', clientesRoutes);
 
 /* CONEXION BD */
 conectarDB();

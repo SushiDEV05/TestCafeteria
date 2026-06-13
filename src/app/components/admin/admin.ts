@@ -99,11 +99,19 @@ export class Admin {
   }
   /* ELIMINAR */
   eliminarProducto(id: number) {
-    this.productService.eliminarProducto(id)
-      .subscribe(() => {
-        alert('Producto eliminado');
-        this.obtenerProductos();
-      });
+    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      this.productService.eliminarProducto(id)
+        .subscribe({
+          next: () => {
+            alert('Producto eliminado');
+            this.obtenerProductos();
+          },
+          error: (err) => {
+            console.error(err);
+            alert('Error al eliminar el producto.');
+          }
+        });
+    }
   }
   /* EDITAR */
   editarProducto(producto: any) {

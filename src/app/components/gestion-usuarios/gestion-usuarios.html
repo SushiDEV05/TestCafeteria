@@ -30,16 +30,13 @@
           </div>
           <div class="col-sm-6">
             <label class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" placeholder="Ej: juan@cafeteria.com" [(ngModel)]="nuevoUsuario.correo">
+            <input type="email" class="form-control" placeholder="Ej: juan@cafeteria.com"
+              [(ngModel)]="nuevoUsuario.correo">
           </div>
           <div class="col-sm-6">
             <label class="form-label">Contraseña</label>
-            <input
-              type="password"
-              class="form-control"
-              placeholder="{{ editando ? 'Nueva contraseña' : 'Contraseña' }}"
-              [(ngModel)]="nuevoUsuario.contrasena"
-            >
+            <input type="password" class="form-control" placeholder="{{ editando ? 'Nueva contraseña' : 'Contraseña' }}"
+              [(ngModel)]="nuevoUsuario.contrasena">
           </div>
           <div class="col-sm-6">
             <label class="form-label">Rol</label>
@@ -87,22 +84,21 @@
               <td style="font-weight:600;">{{ user.nombre }}</td>
               <td style="color:#9C7B5E;">{{ user.correo }}</td>
               <td>
-                <span
-                  class="badge-warm"
-                  [style.background]="user.rol === 'super' ? 'linear-gradient(135deg,#C47B1A,#E8A045)' : user.rol === 'administrador' ? 'linear-gradient(135deg,#3D1F0A,#6B3D1E)' : 'linear-gradient(135deg,#9C7B5E,#6B3D1E)'"
-                >
+                <span class="badge-warm"
+                  [style.background]="user.rol === 'super' ? 'linear-gradient(135deg,#C47B1A,#E8A045)' : user.rol === 'administrador' ? 'linear-gradient(135deg,#3D1F0A,#6B3D1E)' : 'linear-gradient(135deg,#9C7B5E,#6B3D1E)'">
                   {{ user.rol | titlecase }}
                 </span>
               </td>
               <td style="text-align:center;">
                 <button class="btn-edit-sm" (click)="editarUsuario(user)" title="Editar">✏️ Editar</button>
-                <button class="btn-delete-sm" (click)="eliminarUsuario(user.id_usuario)" title="Eliminar">🗑 Eliminar</button>
+                <button class="btn-delete-sm" (click)="eliminarUsuario(user.id_usuario)" title="Eliminar">🗑
+                  Eliminar</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-
+    <footer style="font-size: 10px; text-align: center; color: gray;">COPYRIGHT Sushi®</footer>
   </div>
 </div>

@@ -65,6 +65,12 @@
         </li>
 
         <li class="nav-item" *ngIf="activeRole === 'administrador' || activeRole === 'super'">
+          <a class="nav-link-item" routerLink="/clientes" routerLinkActive="active-link">
+            👥 Clientes
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="activeRole === 'administrador' || activeRole === 'super'">
           <a class="nav-link-item" routerLink="/gestion-usuarios" routerLinkActive="active-link">
             👥 Gestión
           </a>

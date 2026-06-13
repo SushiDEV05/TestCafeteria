@@ -2,9 +2,10 @@
   <div class="container">
 
     <!-- Header -->
-    <div class="mb-4 fade-in-up" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+    <div class="mb-4 fade-in-up"
+      style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
       <div style="display:flex; align-items:center; gap:0.75rem;">
-        <span style="font-size:2rem;">🧾</span>
+        <span style="font-size:2rem;"></span>
         <div>
           <h1 class="admin-page-title" style="margin-bottom:0.1rem;">Historial de Ventas</h1>
           <p style="color:#9C7B5E; font-size:0.85rem; margin:0;">
@@ -13,9 +14,11 @@
         </div>
       </div>
       <div>
-        <button class="admin-btn btn-primary" (click)="descargarExcel()" [disabled]="descargandoExcel || ventas.length === 0" style="background-color: #28a745; border-color: #28a745;">
-          <span *ngIf="!descargandoExcel">📥 Descargar Excel</span>
-          <span *ngIf="descargandoExcel">⏳ Generando...</span>
+        <button class="admin-btn btn-primary" (click)="descargarExcel()"
+          [disabled]="descargandoExcel || ventas.length === 0"
+          style="background-color: #28a745; border-color: #28a745;">
+          <span *ngIf="!descargandoExcel">Descargar Excel</span>
+          <span *ngIf="descargandoExcel">Generando...</span>
         </button>
       </div>
     </div>
@@ -27,7 +30,7 @@
 
     <!-- Tabla de Ventas -->
     <div *ngIf="!cargando" class="admin-table-card fade-in-up">
-      <div class="admin-form-header">📊 Ventas Registradas</div>
+      <div class="admin-form-header">Ventas Registradas</div>
 
       <!-- Estado vacío -->
       <div *ngIf="ventas.length === 0" class="carrito-empty" style="padding: 3rem 2rem;">
@@ -67,6 +70,6 @@
         </table>
       </div>
     </div>
-
+    <footer style="font-size: 10px; text-align: center; color: gray;">COPYRIGHT Sushi®</footer>
   </div>
 </div>
