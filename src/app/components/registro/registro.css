@@ -1,3 +1,4 @@
+/* ── Reutiliza los mismos estilos del login ── */
 /* ── Login Page ── */
 .login-wrapper {
   min-height: 100vh;
@@ -13,7 +14,6 @@
   overflow: hidden;
 }
 
-/* Decorative circles */
 .login-wrapper::before,
 .login-wrapper::after {
   content: '';
@@ -36,7 +36,6 @@
   left: -80px;
 }
 
-/* ── Card ── */
 .login-card {
   border-radius: 1.5rem !important;
   border: 1px solid rgba(232, 160, 69, 0.25) !important;
@@ -53,7 +52,6 @@
   box-shadow: 0 16px 56px rgba(107, 61, 30, 0.2) !important;
 }
 
-/* ── Brand Icon ── */
 .brand-icon {
   font-size: 3.2rem;
   display: inline-block;
@@ -80,45 +78,6 @@
   font-size: 0.875rem;
 }
 
-/* ── Role Selector ── */
-.role-selector-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #9C7B5E;
-  text-transform: uppercase;
-}
-
-.role-btn-group {
-  display: flex;
-  gap: 0.5rem;
-}
-.role-btn {
-  flex: 1;
-  padding: 0.55rem 0.5rem;
-  border: 1.5px solid #E8D5C0;
-  border-radius: 0.6rem !important;
-  background: #fff;
-  color: #6B3D1E;
-  font-weight: 600;
-  font-size: 0.82rem;
-  transition: all 0.22s ease;
-  cursor: pointer;
-}
-.role-btn:hover {
-  background: #F5E6D0;
-  border-color: #E8A045;
-  color: #6B3D1E;
-}
-.role-btn.active {
-  background: linear-gradient(135deg, #E8A045 0%, #C47B1A 100%);
-  border-color: #C47B1A;
-  color: #fff;
-  box-shadow: 0 3px 10px rgba(196, 123, 26, 0.3);
-  transform: translateY(-1px);
-}
-
-/* ── Form Inputs ── */
 .login-card .form-floating label {
   color: #9C7B5E;
   font-size: 0.9rem;
@@ -137,17 +96,6 @@
   background: #fff !important;
 }
 
-/* ── Hint Alert ── */
-.hint-alert {
-  background: rgba(232, 160, 69, 0.1);
-  border: 1px solid rgba(232, 160, 69, 0.3);
-  border-radius: 0.65rem;
-  color: #C47B1A;
-  font-size: 0.83rem;
-  padding: 0.65rem 1rem;
-}
-
-/* ── Submit Button ── */
 .btn-login {
   background: linear-gradient(135deg, #E8A045 0%, #C47B1A 100%) !important;
   border: none !important;
@@ -167,40 +115,12 @@
 }
 .btn-login:active { transform: translateY(0) !important; }
 
-/* ── Divider ── */
 .login-divider {
   border: none;
   border-top: 1px solid #E8D5C0;
   margin: 0;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Role btn group with 4 buttons ── */
-.role-btn-group {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-.role-btn {
-  flex: 1 1 calc(50% - 0.4rem);
-  min-width: 0;
-  padding: 0.55rem 0.35rem;
-  border: 1.5px solid #E8D5C0;
-  border-radius: 0.6rem !important;
-  background: #fff;
-  color: #6B3D1E;
-  font-weight: 600;
-  font-size: 0.78rem;
-  transition: all 0.22s ease;
-  cursor: pointer;
-  text-align: center;
-}
-
-/* ── Registration link ── */
 .registro-text {
   font-size: 0.85rem;
   color: #9C7B5E;
@@ -215,4 +135,9 @@
 .registro-link:hover {
   color: #6B3D1E;
   text-decoration: underline;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

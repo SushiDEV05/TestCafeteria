@@ -45,6 +45,59 @@ router.post('/login', async (req, res) => {
     }
 });
 
+/* ===================== REGISTRO DE CLIENTE ===================== */
+router.post('/registro', async (req, res) => {
+    try {
+        const { nombre, correo, contrasena, telefono } = req.body;
+
+        if (!nombre || !correo || !contrasena || !telefono) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Todos los campos son requeridos (nombre, correo, contraseña, teléfono).'
+            });
+        }
+
+        // Verificar correo duplicado
+        const check = await sql.query`SELECT id_usuario FROM usuarios WHERE correo = ${correo}`;
+        if (check.recordset.length > 0) {
+            return res.status(409).json({
+                success: false,
+                mensaje: 'Ya existe un usuario con ese correo.'
+            });
+        }
+
+        await sql.query`
+            INSERT INTO usuarios (nombre, correo, contrasena, telefono, rol)
+            VALUES (${nombre}, ${correo}, ${contrasena}, ${telefono}, 'cliente')
+        `;
+
+        res.status(201).json({ success: true, mensaje: 'Cuenta creada correctamente. Ya puedes iniciar sesión.' });
+    } catch (error) {
+        console.error('Error al registrar cliente:', error);
+        res.status(500).json({
+            success: false,
+            mensaje: 'Error interno en el servidor.',
+            error: error.message
+        });
+    }
+});
+
+/* ===================== LISTAR CLIENTES CON CUENTA ===================== */
+router.get('/clientes-usuarios', async (req, res) => {
+    try {
+        const result = await sql.query`
+            SELECT id_usuario, nombre, correo, telefono, rol 
+            FROM usuarios 
+            WHERE rol = 'cliente'
+            ORDER BY nombre
+        `;
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error al obtener clientes usuarios:', error);
+        res.status(500).json({ success: false, mensaje: 'Error interno.', error: error.message });
+    }
+});
+
 /* ===================== LISTAR USUARIOS ===================== */
 /* rolSolicitante: el rol de quien está consultando (super ve todos, admin ve solo empleados) */
 router.get('/usuarios', async (req, res) => {

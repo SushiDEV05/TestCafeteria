@@ -1,0 +1,61 @@
+<div class="login-wrapper">
+  <div class="container" style="max-width: 460px; position: relative; z-index: 1;">
+    <div class="login-card card border-0">
+
+      <!-- Header -->
+      <div class="card-header text-center border-0 bg-transparent pt-4 pb-2">
+        <div class="brand-icon mb-2">☕</div>
+        <h3 class="brand-title mb-1">Crear Cuenta</h3>
+        <p class="brand-subtitle mb-0">Regístrate como cliente de Cafetería Dinastía</p>
+      </div>
+
+      <hr class="login-divider mx-4 mt-3">
+
+      <div class="card-body px-4 pb-4 pt-3">
+
+        <form (ngSubmit)="registrar()">
+
+          <div class="form-floating mb-3">
+            <input type="text" id="nombreInput" class="form-control" placeholder="Tu nombre"
+              [(ngModel)]="nombre" name="nombre" required>
+            <label for="nombreInput">👤 Nombre Completo</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="email" id="correoInput" class="form-control" placeholder="correo@ejemplo.com"
+              [(ngModel)]="correo" name="correo" required>
+            <label for="correoInput">✉️ Correo Electrónico</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="tel" id="telefonoInput" class="form-control" placeholder="999888777"
+              [(ngModel)]="telefono" name="telefono" required>
+            <label for="telefonoInput">📞 Teléfono</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="password" id="contrasenaInput" class="form-control" placeholder="Contraseña"
+              [(ngModel)]="contrasena" name="contrasena" required>
+            <label for="contrasenaInput">🔑 Contraseña</label>
+          </div>
+
+          <div class="form-floating mb-4">
+            <input type="password" id="confirmarInput" class="form-control" placeholder="Confirmar contraseña"
+              [(ngModel)]="confirmarContrasena" name="confirmarContrasena" required>
+            <label for="confirmarInput">🔑 Confirmar Contraseña</label>
+          </div>
+
+          <button type="submit" class="btn btn-login w-100">
+            Crear Cuenta →
+          </button>
+
+          <div class="text-center mt-3">
+            <p class="registro-text">¿Ya tienes cuenta? <a routerLink="/login" class="registro-link">Inicia sesión aquí</a></p>
+          </div>
+
+          <footer style="font-size: 10px; text-align: center; color: gray; margin-top: 0.5rem;">COPYRIGHT Sushi®</footer>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

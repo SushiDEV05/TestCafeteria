@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, AppRole } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,10 +28,9 @@ export class Navbar {
     return this.authService.getActiveRole();
   }
 
-  cambiarRolActivo(rol: 'administrador' | 'empleado' | 'super') {
+  cambiarRolActivo(rol: AppRole) {
     this.authService.setActiveRole(rol);
     alert(`Vista cambiada a: ${rol}`);
-    // If the active role changes to empleado and the user is in /admin, redirect to /inicio
     if (rol === 'empleado' && this.router.url.includes('/admin')) {
       this.router.navigate(['/inicio']);
     }

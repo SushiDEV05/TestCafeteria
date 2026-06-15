@@ -30,9 +30,8 @@
           </span>
         </li>
 
-
-        <!-- Links de navegación -->
-        <li class="nav-item">
+        <!-- ===== Links visibles para TODOS los roles ===== -->
+        <li class="nav-item" *ngIf="activeRole !== 'cliente'">
           <a class="nav-link-item" routerLink="/inicio"
             routerLinkActive="active-link"
             [routerLinkActiveOptions]="{exact: true}">
@@ -52,7 +51,15 @@
           </a>
         </li>
 
-        <li class="nav-item">
+        <!-- ===== Pedidos: visible para clientes (solo lectura) y admins ===== -->
+        <li class="nav-item" *ngIf="activeRole === 'cliente'">
+          <a class="nav-link-item" routerLink="/pedidos" routerLinkActive="active-link">
+            📦 Mis Pedidos
+          </a>
+        </li>
+
+        <!-- ===== Links SOLO para empleados y superiores (no clientes) ===== -->
+        <li class="nav-item" *ngIf="activeRole !== 'cliente'">
           <a class="nav-link-item" routerLink="/ventas" routerLinkActive="active-link">
             🧾 Ventas
           </a>
@@ -67,6 +74,12 @@
         <li class="nav-item" *ngIf="activeRole === 'administrador' || activeRole === 'super'">
           <a class="nav-link-item" routerLink="/clientes" routerLinkActive="active-link">
             👥 Clientes
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="activeRole === 'administrador' || activeRole === 'super'">
+          <a class="nav-link-item" routerLink="/pedidos" routerLinkActive="active-link">
+            📦 Pedidos
           </a>
         </li>
 

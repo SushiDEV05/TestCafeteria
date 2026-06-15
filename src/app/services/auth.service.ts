@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export type AppRole = 'administrador' | 'empleado' | 'super' | 'cliente';
+
 export interface User {
   id_usuario: number;
   usuario: string;
-  role: 'administrador' | 'empleado' | 'super';
-  activeRole: 'administrador' | 'empleado' | 'super';
+  role: AppRole;
+  activeRole: AppRole;
 }
 
 @Injectable({
@@ -30,17 +32,17 @@ export class AuthService {
     return this.getCurrentUser() !== null;
   }
 
-  getRole(): 'administrador' | 'empleado' | 'super' | null {
+  getRole(): AppRole | null {
     const user = this.getCurrentUser();
     return user ? user.role : null;
   }
 
-  getActiveRole(): 'administrador' | 'empleado' | 'super' | null {
+  getActiveRole(): AppRole | null {
     const user = this.getCurrentUser();
     return user ? user.activeRole : null;
   }
 
-  setActiveRole(role: 'administrador' | 'empleado' | 'super'): void {
+  setActiveRole(role: AppRole): void {
     const user = this.getCurrentUser();
     if (user && user.role === 'super') {
       user.activeRole = role;
@@ -52,7 +54,15 @@ export class AuthService {
     return this.http.post(`${this.api}/login`, { correo, contrasena, rol });
   }
 
-  login(id_usuario: number, usuario: string, role: 'administrador' | 'empleado' | 'super'): void {
+  registrarCliente(datos: { nombre: string; correo: string; telefono: string; contrasena: string }): Observable<any> {
+    return this.http.post(`${this.api}/registro`, datos);
+  }
+
+  obtenerClientesUsuarios(): Observable<any> {
+    return this.http.get(`${this.api}/clientes-usuarios`);
+  }
+
+  login(id_usuario: number, usuario: string, role: AppRole): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       const user: User = {
         id_usuario,
@@ -70,4 +80,3 @@ export class AuthService {
     }
   }
 }
-

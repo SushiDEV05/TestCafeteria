@@ -383,6 +383,83 @@
   opacity: 0.7;
 }
 
+/* ── Buscador y Listbox de Clientes en Carrito ── */
+.cliente-select-container {
+  background: #fdfaf7;
+  border: 1px solid #ebd8c5;
+  border-radius: 0.8rem;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px rgba(107, 61, 30, 0.03);
+}
+
+.select-label {
+  font-weight: 700;
+  color: #5c351a;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  font-size: 0.9rem;
+  color: #a0846c;
+}
+
+.search-control {
+  padding-left: 2.2rem !important;
+  border: 1.5px solid #ebd8c5 !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.9rem !important;
+  background-color: #fff !important;
+  color: #3d1f0a !important;
+  transition: all 0.2s ease !important;
+}
+
+.search-control:focus {
+  border-color: #c47b1a !important;
+  box-shadow: 0 0 0 3px rgba(196, 123, 26, 0.15) !important;
+  outline: none !important;
+}
+
+.client-listbox {
+  border: 1.5px solid #ebd8c5 !important;
+  border-radius: 0.5rem !important;
+  background-color: #fff !important;
+  color: #3d1f0a !important;
+  font-size: 0.9rem !important;
+  padding: 0.5rem !important;
+  outline: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.client-listbox:focus {
+  border-color: #c47b1a !important;
+  box-shadow: 0 0 0 3px rgba(196, 123, 26, 0.15) !important;
+}
+
+.client-listbox option {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.25rem;
+  margin-bottom: 2px;
+  color: #3d1f0a;
+}
+
+.client-listbox option:hover {
+  background-color: #f5ecd8 !important;
+}
+
+.client-listbox option:checked {
+  background: linear-gradient(135deg, #c47b1a, #a6630f) !important;
+  color: #fff !important;
+}
+
 /* ══ Estilos de impresión ══ */
 @media print {
   /* Ocultar todo excepto la boleta */

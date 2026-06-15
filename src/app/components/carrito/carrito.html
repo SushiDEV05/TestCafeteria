@@ -62,18 +62,37 @@
         📋 Datos del Cliente
       </div>
       <div class="cliente-form-body">
+        
+        <!-- Buscador y Listbox de Clientes para roles super, administrador y empleado -->
+        <div *ngIf="!esCliente" class="cliente-select-container mb-4">
+          <label class="form-label select-label">👤 Seleccionar Cliente Registrado (Opcional)</label>
+          <div class="search-input-wrapper mb-2">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="form-control search-control" placeholder="Buscar cliente por nombre..." [(ngModel)]="busquedaCliente" (input)="filtrarClientes()">
+          </div>
+          <select class="form-select client-listbox" size="5" [(ngModel)]="clienteSeleccionadoId" (change)="onClienteSeleccionadoChange()">
+            <option [value]="null">-- Ninguno (Llenar formulario manualmente) --</option>
+            <option *ngFor="let c of clientesFiltrados" [value]="c.id_usuario">
+              {{ c.nombre }} (📞 {{ c.telefono || 'Sin teléfono' }} - 📧 {{ c.correo }})
+            </option>
+          </select>
+          <div class="form-text text-muted mt-1">
+            Si seleccionas un cliente de la lista, sus datos se cargarán automáticamente y se bloqueará su edición.
+          </div>
+        </div>
+
         <div class="row g-3">
           <div class="col-sm-6">
             <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" placeholder="Ej: Juan Pérez" [(ngModel)]="cliente.nombre">
+            <input type="text" class="form-control" placeholder="Ej: Juan Pérez" [(ngModel)]="cliente.nombre" [disabled]="clienteSeleccionadoId !== null">
           </div>
           <div class="col-sm-6">
             <label class="form-label">Teléfono</label>
-            <input type="text" class="form-control" placeholder="Ej: 987654321" [(ngModel)]="cliente.telefono">
+            <input type="text" class="form-control" placeholder="Ej: 987654321" [(ngModel)]="cliente.telefono" [disabled]="clienteSeleccionadoId !== null">
           </div>
           <div class="col-sm-6">
             <label class="form-label">Correo</label>
-            <input type="email" class="form-control" placeholder="Ej: juan@email.com" [(ngModel)]="cliente.correo">
+            <input type="email" class="form-control" placeholder="Ej: juan@email.com" [(ngModel)]="cliente.correo" [disabled]="clienteSeleccionadoId !== null">
           </div>
           <div class="col-sm-6">
             <label class="form-label">Dirección</label>

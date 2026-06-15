@@ -17,6 +17,10 @@
         <div class="mb-4">
           <p class="role-selector-label text-center mb-2">Rol de acceso</p>
           <div class="role-btn-group">
+            <button type="button" class="role-btn" [class.active]="rolSeleccionado === 'cliente'"
+              (click)="seleccionarRol('cliente')">
+              🛍️ Cliente
+            </button>
             <button type="button" class="role-btn" [class.active]="rolSeleccionado === 'administrador'"
               (click)="seleccionarRol('administrador')">
               🛠 Admin
@@ -34,7 +38,6 @@
 
         <!-- Formulario -->
         <form (ngSubmit)="iniciarSesion()">
-
 
           <div class="form-floating mb-3">
             <input type="email" id="usuarioInput" class="form-control" placeholder="name@example.com"
@@ -57,11 +60,20 @@
             </span>
             <span *ngIf="rolSeleccionado === 'super'">
             </span>
+            <span *ngIf="rolSeleccionado === 'cliente'">
+              Ingresa con tu cuenta de cliente
+            </span>
           </div>
           <button type="submit" id="loginSubmitBtn" class="btn btn-login w-100">
             Iniciar Sesión →
           </button>
-          <footer style="font-size: 10px; text-align: center; color: gray;">COPYRIGHT Sushi®</footer>
+
+          <!-- Link de Registro -->
+          <div class="text-center mt-3">
+            <p class="registro-text">¿No tienes cuenta? <a routerLink="/registro" class="registro-link">Regístrate aquí</a></p>
+          </div>
+
+          <footer style="font-size: 10px; text-align: center; color: gray; margin-top: 0.5rem;">COPYRIGHT Sushi®</footer>
         </form>
       </div>
     </div>

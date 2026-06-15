@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService, AppRole } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login implements OnInit {
 
-  rolSeleccionado: 'administrador' | 'empleado' | 'super' = 'administrador';
+  rolSeleccionado: AppRole = 'cliente';
   usuario = '';
   password = '';
 
@@ -28,7 +28,7 @@ export class Login implements OnInit {
     }
   }
 
-  seleccionarRol(rol: 'administrador' | 'empleado' | 'super') {
+  seleccionarRol(rol: AppRole) {
     this.rolSeleccionado = rol;
     this.usuario = '';
     this.password = '';
@@ -42,7 +42,7 @@ export class Login implements OnInit {
 
     this.authService.loginApi(this.usuario, this.password, this.rolSeleccionado).subscribe({
       next: (respuesta: any) => {
-        this.authService.login(respuesta.id_usuario, respuesta.usuario, respuesta.role as 'administrador' | 'empleado' | 'super');
+        this.authService.login(respuesta.id_usuario, respuesta.usuario, respuesta.role as AppRole);
         alert(`Bienvenido ${respuesta.usuario} (${respuesta.role})`);
         this.router.navigate(['/inicio']);
       },

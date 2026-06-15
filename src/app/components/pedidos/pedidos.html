@@ -1,0 +1,87 @@
+<div class="admin-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+      <h1 class="admin-page-title">{{ esCliente ? '📦 Mis Pedidos' : '📦 Gestión de Pedidos' }}</h1>
+    </div>
+
+    <!-- Formulario de Edición (solo para admin/super) -->
+    <div class="admin-form-card fade-in-up" *ngIf="editando && !esCliente">
+      <div class="admin-form-header">
+        ✏️ Actualizar Estado de Pedido #{{ pedidoEditando?.id_pedido }}
+      </div>
+      <div class="admin-form-body">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">Estado</label>
+            <select class="form-select" [(ngModel)]="estadoSeleccionado">
+              <option value="Pendiente">Pendiente</option>
+              <option value="Entregado">Entregado</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn-admin-save" (click)="guardarEdicion()">
+            ✓ Actualizar
+          </button>
+          <button class="btn-admin-cancel" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Pedidos -->
+    <div class="admin-table-card fade-in-up">
+      <div class="admin-form-header">
+        {{ esCliente ? '📋 Historial de Pedidos' : '📋 Lista de Pedidos' }}
+      </div>
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th *ngIf="!esCliente">Usuario</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th *ngIf="!esCliente">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pedido of pedidos">
+              <td><span class="admin-id">#{{ pedido.id_pedido }}</span></td>
+              <td *ngIf="!esCliente" style="font-weight: 600;">{{ pedido.usuario_nombre || 'Desconocido' }} <br>
+                  <small style="font-weight: 400; color: #666;">{{ pedido.correo || '' }}</small>
+              </td>
+              <td>{{ pedido.fecha | date:'short' }}</td>
+              <td style="font-weight: 700; color: #5A8A5E;">S/ {{ pedido.total }}</td>
+              <td>
+                <span class="badge-estado" 
+                      [ngClass]="{
+                        'estado-pendiente': pedido.estado === 'Pendiente',
+                        'estado-entregado': pedido.estado === 'Entregado',
+                        'estado-cancelado': pedido.estado === 'Cancelado'
+                      }">
+                  {{ pedido.estado }}
+                </span>
+              </td>
+              <td *ngIf="!esCliente">
+                <button class="btn-edit-sm" (click)="editarPedido(pedido)">✏️ Editar</button>
+                <button class="btn-delete-sm" (click)="eliminarPedido(pedido.id_pedido)">🗑 Eliminar</button>
+              </td>
+            </tr>
+            <tr *ngIf="pedidos.length === 0">
+              <td [attr.colspan]="esCliente ? 4 : 6" style="text-align: center; padding: 2rem;">
+                {{ esCliente ? 'Aún no has realizado ningún pedido.' : 'No hay pedidos registrados.' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+</div>
