@@ -32,25 +32,29 @@ conectarDB();
 /* ========================================================================= */
 /* SERVIR EL FRONTEND DE ANGULAR (AUTOMÁTICO)                               */
 /* ========================================================================= */
-const distPath = path.join(__dirname, '../dist');
+let distPath = path.join(__dirname, '../dist');
 
-app.use(express.static(distPath));
-
-// Usamos app.use sin ruta para saltarnos el parser estricto de Express 5 / Node 24
-app.use((req, res) => {
-    let indexPath = path.join(distPath, 'index.html');
-
-    if (!fs.existsSync(indexPath)) {
-        const files = fs.readdirSync(distPath);
-        const subFolder = files.find(f => fs.statSync(path.join(distPath, f)).isDirectory());
-        if (subFolder) {
-            indexPath = path.join(distPath, subFolder, 'index.html');
-            if (!fs.existsSync(indexPath) && fs.existsSync(path.join(distPath, subFolder, 'browser', 'index.html'))) {
-                indexPath = path.join(distPath, subFolder, 'browser', 'index.html');
-            }
+// Corregimos la ruta estática para que apunte a la subcarpeta real (dist/cofe)
+if (fs.existsSync(distPath)) {
+    const files = fs.readdirSync(distPath);
+    const subFolder = files.find(f => fs.statSync(path.join(distPath, f)).isDirectory());
+    if (subFolder) {
+        let potentialPath = path.join(distPath, subFolder);
+        // Si Angular usó la estructura moderna con /browser
+        if (fs.existsSync(path.join(potentialPath, 'browser'))) {
+            distPath = path.join(potentialPath, 'browser');
+        } else {
+            distPath = potentialPath;
         }
     }
-    res.sendFile(indexPath);
+}
+
+// Ahora Express buscará main.js y styles.css en la carpeta correcta
+app.use(express.static(distPath));
+
+// Cualquier otra ruta SPA recarga el index.html correcto
+app.use((req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
 });
 /* ========================================================================= */
 
