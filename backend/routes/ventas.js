@@ -85,7 +85,6 @@ router.post('/', async (req, res) => {
                 correo,
                 direccion
             )
-            OUTPUT INSERTED.id_cliente
             VALUES
             (
                 ${cliente.nombre},
@@ -93,6 +92,7 @@ router.post('/', async (req, res) => {
                 ${cliente.correo},
                 ${cliente.direccion}
             )
+            RETURNING id_cliente
         `;
         const idCliente =
             clienteResult.recordset[0].id_cliente;
@@ -103,12 +103,12 @@ router.post('/', async (req, res) => {
                 id_cliente,
                 total
             )
-            OUTPUT INSERTED.id_venta
             VALUES
             (
                 ${idCliente},
                 ${total}
             )
+            RETURNING id_venta
         `;
         const idVenta =
             ventaResult.recordset[0].id_venta;

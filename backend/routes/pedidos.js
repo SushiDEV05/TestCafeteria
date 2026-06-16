@@ -19,15 +19,15 @@ router.post('/', async (req, res) => {
             INSERT INTO pedidos
             (id_usuario, fecha, estado, total)
 
-            OUTPUT INSERTED.id_pedido
-
             VALUES
             (
                 ${id_usuario},
-                GETDATE(),
+                CURRENT_TIMESTAMP,
                 'Pendiente',
                 ${total}
             )
+
+            RETURNING id_pedido
         `;
 
         const idPedido =
