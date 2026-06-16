@@ -1,8 +1,38 @@
+const express = require('express');
+const cors = require('cors');
 const path = require('path');
-
-// Esto busca el index.html automáticamente en cualquier subcarpeta de dist
-const distPath = path.join(__dirname, '../dist');
 const fs = require('fs');
+
+const { conectarDB } = require('./db');
+
+const productosRoutes = require('./routes/productos');
+const pedidosRoutes = require('./routes/pedidos');
+const ventasRoutes = require('./routes/ventas');
+const authRoutes = require('./routes/auth');
+const clientesRoutes = require('./routes/clientes');
+
+const app = express(); // <-- IMPORTANTE: Primero definimos 'app'
+
+app.use(cors());
+app.use(express.json());
+
+/* CARPETA IMAGENES */
+app.use('/uploads', express.static('uploads'));
+
+/* RUTAS DE LA API */
+app.use('/api/productos', productosRoutes);
+app.use('/api/pedidos', pedidosRoutes);
+app.use('/api/ventas', ventasRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/clientes', clientesRoutes);
+
+/* CONEXION BD */
+conectarDB();
+
+/* ========================================================================= */
+/* SERVIR EL FRONTEND DE ANGULAR (AUTOMÁTICO)                               */
+/* ========================================================================= */
+const distPath = path.join(__dirname, '../dist');
 
 app.use(express.static(distPath));
 
@@ -20,4 +50,11 @@ app.get('*', (req, res) => {
         }
     }
     res.sendFile(indexPath);
+});
+/* ========================================================================= */
+
+/* SERVIDOR */
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en puerto ${PORT}`);
 });
