@@ -1,34 +1,23 @@
-const express = require('express');
-const cors = require('cors');
+const path = require('path');
 
-const { conectarDB } = require('./db');
+// Esto busca el index.html automáticamente en cualquier subcarpeta de dist
+const distPath = path.join(__dirname, '../dist');
+const fs = require('fs');
 
-const productosRoutes = require('./routes/productos');
-const pedidosRoutes = require('./routes/pedidos');
-const ventasRoutes = require('./routes/ventas');
-const authRoutes = require('./routes/auth');
+app.use(express.static(distPath));
 
-const app = express();
+app.get('*', (req, res) => {
+    let indexPath = path.join(distPath, 'index.html');
 
-app.use(cors());
-
-app.use(express.json());
-
-/* CARPETA IMAGENES */
-app.use('/uploads', express.static('uploads'));
-
-/* RUTAS */
-app.use('/api/productos', productosRoutes);
-app.use('/api/pedidos', pedidosRoutes);
-app.use('/api/ventas', ventasRoutes);
-app.use('/api/auth', authRoutes);
-const clientesRoutes = require('./routes/clientes');
-app.use('/api/clientes', clientesRoutes);
-
-/* CONEXION BD */
-conectarDB();
-
-/* SERVIDOR */
-app.listen(3000, () => {
-    console.log('Servidor corriendo en puerto 3000');
+    if (!fs.existsSync(indexPath)) {
+        const files = fs.readdirSync(distPath);
+        const subFolder = files.find(f => fs.statSync(path.join(distPath, f)).isDirectory());
+        if (subFolder) {
+            indexPath = path.join(distPath, subFolder, 'index.html');
+            if (!fs.existsSync(indexPath) && fs.existsSync(path.join(distPath, subFolder, 'browser', 'index.html'))) {
+                indexPath = path.join(distPath, subFolder, 'browser', 'index.html');
+            }
+        }
+    }
+    res.sendFile(indexPath);
 });
