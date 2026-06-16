@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ClienteService {
-  private api = 'http://localhost:3000/api/clientes';
+  private api = '/api/clientes';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obtenerClientes() {
     return this.http.get(this.api);

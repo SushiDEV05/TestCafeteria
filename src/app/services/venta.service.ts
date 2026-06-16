@@ -6,9 +6,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class VentaService {
 
-  apiUrl = 'http://localhost:3000/api/ventas';
+  apiUrl = '/api/ventas';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   registrarVenta(data: any) {
     return this.http.post(this.apiUrl, data);

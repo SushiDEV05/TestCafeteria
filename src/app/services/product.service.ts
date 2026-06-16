@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ProductService {
-  api = 'http://localhost:3000/api/productos';
-  constructor(private http: HttpClient) {}
+  api = '/api/productos';
+  constructor(private http: HttpClient) { }
   obtenerProductos() {
     return this.http.get(this.api);
   }

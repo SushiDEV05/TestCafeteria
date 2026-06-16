@@ -16,9 +16,10 @@ export interface User {
 })
 export class AuthService {
   private currentUserKey = 'dinastia_current_user';
-  private api = 'http://localhost:3000/api/auth';
+  // Corregido para producción en Render sin el localhost
+  private api = '/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getCurrentUser(): User | null {
     if (typeof window !== 'undefined' && window.localStorage) {

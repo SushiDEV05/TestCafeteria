@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class GestionUsuarios implements OnInit {
 
-  private api = 'http://localhost:3000/api/auth';
+  private api = '/api/auth';
 
   usuarios: any[] = [];
   rolActivo: string | null = null;
@@ -32,7 +32,7 @@ export class GestionUsuarios implements OnInit {
     private authService: AuthService,
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (!this.authService.isLoggedIn()) {
