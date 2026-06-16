@@ -16,8 +16,11 @@ const app = express(); // <-- IMPORTANTE: Primero definimos 'app'
 app.use(cors());
 app.use(express.json());
 
-/* CARPETA IMAGENES */
-app.use('/uploads', express.static('uploads'));
+/* ========================================================================= */
+/* CARPETA IMAGENES (CORREGIDA CON PATH.JOIN PARA PRODUCCIÓN EN RENDER)       */
+/* ========================================================================= */
+// Esto asegura que Express encuentre la carpeta local de fotos en el servidor Linux de Render
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 /* RUTAS DE LA API */
 app.use('/api/productos', productosRoutes);
@@ -48,7 +51,6 @@ if (fs.existsSync(distPath)) {
         }
     }
 }
-
 // Ahora Express buscará main.js y styles.css en la carpeta correcta
 app.use(express.static(distPath));
 
@@ -56,7 +58,6 @@ app.use(express.static(distPath));
 app.use((req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
 });
-/* ========================================================================= */
 
 /* SERVIDOR */
 const PORT = process.env.PORT || 3000;
