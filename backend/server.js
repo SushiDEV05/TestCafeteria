@@ -36,7 +36,8 @@ const distPath = path.join(__dirname, '../dist');
 
 app.use(express.static(distPath));
 
-app.get('(.*)', (req, res) => {
+// Usamos app.use sin ruta para saltarnos el parser estricto de Express 5 / Node 24
+app.use((req, res) => {
     let indexPath = path.join(distPath, 'index.html');
 
     if (!fs.existsSync(indexPath)) {
