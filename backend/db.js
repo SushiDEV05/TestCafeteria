@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 const config = {
-    host: 'dpg-d8o86gpkh4rs73b9ndhg-a.oregon-postgres.render.com',
+    host: 'dpg-d8o86gpkh4rs73b9ndhg-a',
     database: 'cafeteria_7y02',
     user: 'sushi',
     password: '4mdX2Ia7KRI0XhLE5l7fGkX2Vzj7iQwK',
@@ -33,10 +33,10 @@ function formatRow(row) {
 }
 
 const sql = {
-    query: async function(strings, ...values) {
+    query: async function (strings, ...values) {
         let text;
         let queryValues = [];
-        
+
         if (Array.isArray(strings) && strings.raw) {
             // Tagged template literal
             let textParts = [];
@@ -56,7 +56,7 @@ const sql = {
 
         const res = await pool.query(text, queryValues);
         const formattedRows = res.rows.map(formatRow);
-        
+
         return {
             recordset: formattedRows,
             rows: formattedRows,
