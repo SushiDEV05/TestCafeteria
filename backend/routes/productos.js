@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 });
 
 /* ========================================================================= */
-/* AGREGAR PRODUCTO (CORREGIDO PARSEO NUMÉRICO)                              */
+/* AGREGAR PRODUCTO (BLINDADO CONTRA VALORES BLANCOS O NaN)                 */
 /* ========================================================================= */
 router.post('/', upload.single('imagen'), async (req, res) => {
     try {
@@ -53,9 +53,12 @@ router.post('/', upload.single('imagen'), async (req, res) => {
 
         const imagen = req.file ? req.file.filename : '';
 
-        // Forzamos el tipo de dato correcto para SQL Server
-        const precioNumerico = parseFloat(precio);
-        const stockNumerico = parseInt(stock);
+        // Forzamos el tipo de dato numérico y evitamos el colapso por NaN
+        let precioNumerico = parseFloat(precio);
+        let stockNumerico = parseInt(stock);
+
+        if (isNaN(precioNumerico)) precioNumerico = 0.0;
+        if (isNaN(stockNumerico)) stockNumerico = 0;
 
         await sql.query`
             INSERT INTO Productos
@@ -73,12 +76,13 @@ router.post('/', upload.single('imagen'), async (req, res) => {
             mensaje: 'Producto agregado correctamente'
         });
     } catch (error) {
+        console.error("❌ ERROR CRÍTICO EN POST PRODUCTOS:", error);
         res.status(500).json(error);
     }
 });
 
 /* ========================================================================= */
-/* ELIMINAR PRODUCTO (CORREGIDO PARA EVITAR EL ERROR 42601)                  */
+/* ELIMINAR PRODUCTO (CORREGIDO PARA EVITAR EL ERROR DE SINTAXIS MULTIPLE)   */
 /* ========================================================================= */
 router.delete('/:id', async (req, res) => {
     try {
@@ -93,13 +97,13 @@ router.delete('/:id', async (req, res) => {
             mensaje: 'Producto eliminado'
         });
     } catch (error) {
-        console.log(error);
+        console.error("❌ ERROR CRÍTICO EN DELETE PRODUCTOS:", error);
         res.status(500).json(error);
     }
 });
 
 /* ========================================================================= */
-/* EDITAR PRODUCTO (CORREGIDO: EVITA EL ERROR 500 DE TIPOS DE DATOS)         */
+/* EDITAR PRODUCTO (BLINDADO CONTRA VALORES NaN / NULL)                      */
 /* ========================================================================= */
 router.put('/:id', upload.single('imagen'), async (req, res) => {
     try {
@@ -111,12 +115,15 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
             stock
         } = req.body;
 
-        // Convertimos los valores que vienen del FormData de Angular a números reales
-        const precioNumerico = parseFloat(precio);
-        const stockNumerico = parseInt(stock);
+        // Convertimos y validamos. Si da NaN, le ponemos un valor por defecto
+        let precioNumerico = parseFloat(precio);
+        let stockNumerico = parseInt(stock);
+
+        if (isNaN(precioNumerico)) precioNumerico = 0.0;
+        if (isNaN(stockNumerico)) stockNumerico = 0;
 
         if (req.file) {
-            // Si el usuario subió una nueva foto, actualizamos TODO, incluyendo la nueva imagen
+            // Si el usuario seleccionó una nueva foto, se actualiza la imagen
             const nuevaImagen = req.file.filename;
             await sql.query`
                 UPDATE Productos
@@ -129,7 +136,7 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
                 WHERE id_producto = ${id}
             `;
         } else {
-            // Si no cambió la foto, conservamos la imagen existente en la BD
+            // Si no se seleccionó ninguna foto, se conserva la imagen que ya existía
             await sql.query`
                 UPDATE Productos
                 SET
@@ -142,11 +149,15 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
         }
 
         res.json({
-            mensaje: 'Producto actualizado'
+            mensaje: 'Producto actualizado correctamente'
         });
     } catch (error) {
-        console.error("Error en PUT productos:", error);
-        res.status(500).json(error);
+        // Esto pintará en los logs de Render el fallo exacto si ocurre algo externo
+        console.error("❌ ERROR CRÍTICO EN PUT PRODUCTOS:", error);
+        res.status(500).json({
+            error: true,
+            message: error.message
+        });
     }
 });
 
