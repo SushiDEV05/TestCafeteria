@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const { sql } = require('../db');
+
 /* CONFIGURAR MULTER */
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -11,6 +12,7 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname);
     }
 });
+
 const upload = multer({
     storage,
     fileFilter: (req, file, cb) => {
@@ -24,6 +26,7 @@ const upload = multer({
         cb('Solo imágenes JPG y PNG');
     }
 });
+
 /* OBTENER PRODUCTOS */
 router.get('/', async (req, res) => {
     try {
@@ -35,6 +38,7 @@ router.get('/', async (req, res) => {
         res.status(500).json(error);
     }
 });
+
 /* AGREGAR PRODUCTO */
 router.post('/', upload.single('imagen'), async (req, res) => {
     try {
@@ -44,7 +48,7 @@ router.post('/', upload.single('imagen'), async (req, res) => {
             precio,
             stock
         } = req.body;
-        const imagen = req.file.filename;
+        const imagen = req.file ? req.file.filename : '';
         await sql.query`
             INSERT INTO Productos
             (nombre, descripcion, precio, imagen, stock)
@@ -64,15 +68,19 @@ router.post('/', upload.single('imagen'), async (req, res) => {
         res.status(500).json(error);
     }
 });
-/* ELIMINAR PRODUCTO */
+
+/* ========================================================================= */
+/* ELIMINAR PRODUCTO (CORREGIDO PARA EVITAR EL ERROR DE SINTAXIS 42601)      */
+/* ========================================================================= */
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        await sql.query`
-            DELETE FROM detalle_pedido WHERE id_producto = ${id};
-            DELETE FROM detalle_venta WHERE id_producto = ${id};
-            DELETE FROM Productos WHERE id_producto = ${id};
-        `;
+
+        // Ejecutamos cada eliminación por separado para que el motor de SQL no se confunda
+        await sql.query`DELETE FROM detalle_pedido WHERE id_producto = ${id}`;
+        await sql.query`DELETE FROM detalle_venta WHERE id_producto = ${id}`;
+        await sql.query`DELETE FROM Productos WHERE id_producto = ${id}`;
+
         res.json({
             mensaje: 'Producto eliminado'
         });
@@ -81,7 +89,10 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json(error);
     }
 });
-/* EDITAR PRODUCTO */
+
+/* ========================================================================= */
+/* EDITAR PRODUCTO (CORREGIDO: MANTIENE LA IMAGEN ANTERIOR SI VIENE VACÍA)   */
+/* ========================================================================= */
 router.put('/:id', upload.single('imagen'), async (req, res) => {
     try {
         const { id } = req.params;
@@ -91,20 +102,33 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
             precio,
             stock
         } = req.body;
-        let imagen = '';
+
         if (req.file) {
-            imagen = req.file.filename;
+            // Si el usuario subió una nueva foto, actualizamos TODO, incluyendo la nueva imagen
+            const nuevaImagen = req.file.filename;
+            await sql.query`
+                UPDATE Productos
+                SET
+                    nombre = ${nombre},
+                    descripcion = ${descripcion},
+                    precio = ${precio},
+                    imagen = ${nuevaImagen},
+                    stock = ${stock}
+                WHERE id_producto = ${id}
+            `;
+        } else {
+            // Si req.file es undefined, el usuario no cambió la foto. Conservamos la imagen existente
+            await sql.query`
+                UPDATE Productos
+                SET
+                    nombre = ${nombre},
+                    descripcion = ${descripcion},
+                    precio = ${precio},
+                    stock = ${stock}
+                WHERE id_producto = ${id}
+            `;
         }
-        await sql.query`
-            UPDATE Productos
-            SET
-                nombre = ${nombre},
-                descripcion = ${descripcion},
-                precio = ${precio},
-                imagen = ${imagen},
-                stock = ${stock}
-            WHERE id_producto = ${id}
-        `;
+
         res.json({
             mensaje: 'Producto actualizado'
         });
@@ -112,4 +136,5 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
         res.status(500).json(error);
     }
 });
+
 module.exports = router;
