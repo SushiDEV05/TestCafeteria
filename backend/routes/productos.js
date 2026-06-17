@@ -39,7 +39,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-/* AGREGAR PRODUCTO */
+/* ========================================================================= */
+/* AGREGAR PRODUCTO (CORREGIDO PARSEO NUMÉRICO)                              */
+/* ========================================================================= */
 router.post('/', upload.single('imagen'), async (req, res) => {
     try {
         const {
@@ -48,7 +50,13 @@ router.post('/', upload.single('imagen'), async (req, res) => {
             precio,
             stock
         } = req.body;
+
         const imagen = req.file ? req.file.filename : '';
+
+        // Forzamos el tipo de dato correcto para SQL Server
+        const precioNumerico = parseFloat(precio);
+        const stockNumerico = parseInt(stock);
+
         await sql.query`
             INSERT INTO Productos
             (nombre, descripcion, precio, imagen, stock)
@@ -56,9 +64,9 @@ router.post('/', upload.single('imagen'), async (req, res) => {
             (
                 ${nombre},
                 ${descripcion},
-                ${precio},
+                ${precioNumerico},
                 ${imagen},
-                ${stock}
+                ${stockNumerico}
             )
         `;
         res.json({
@@ -70,7 +78,7 @@ router.post('/', upload.single('imagen'), async (req, res) => {
 });
 
 /* ========================================================================= */
-/* ELIMINAR PRODUCTO (CORREGIDO PARA EVITAR EL ERROR DE SINTAXIS 42601)      */
+/* ELIMINAR PRODUCTO (CORREGIDO PARA EVITAR EL ERROR 42601)                  */
 /* ========================================================================= */
 router.delete('/:id', async (req, res) => {
     try {
@@ -91,7 +99,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 /* ========================================================================= */
-/* EDITAR PRODUCTO (CORREGIDO: MANTIENE LA IMAGEN ANTERIOR SI VIENE VACÍA)   */
+/* EDITAR PRODUCTO (CORREGIDO: EVITA EL ERROR 500 DE TIPOS DE DATOS)         */
 /* ========================================================================= */
 router.put('/:id', upload.single('imagen'), async (req, res) => {
     try {
@@ -103,6 +111,10 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
             stock
         } = req.body;
 
+        // Convertimos los valores que vienen del FormData de Angular a números reales
+        const precioNumerico = parseFloat(precio);
+        const stockNumerico = parseInt(stock);
+
         if (req.file) {
             // Si el usuario subió una nueva foto, actualizamos TODO, incluyendo la nueva imagen
             const nuevaImagen = req.file.filename;
@@ -111,20 +123,20 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
                 SET
                     nombre = ${nombre},
                     descripcion = ${descripcion},
-                    precio = ${precio},
+                    precio = ${precioNumerico},
                     imagen = ${nuevaImagen},
-                    stock = ${stock}
+                    stock = ${stockNumerico}
                 WHERE id_producto = ${id}
             `;
         } else {
-            // Si req.file es undefined, el usuario no cambió la foto. Conservamos la imagen existente
+            // Si no cambió la foto, conservamos la imagen existente en la BD
             await sql.query`
                 UPDATE Productos
                 SET
                     nombre = ${nombre},
                     descripcion = ${descripcion},
-                    precio = ${precio},
-                    stock = ${stock}
+                    precio = ${precioNumerico},
+                    stock = ${stockNumerico}
                 WHERE id_producto = ${id}
             `;
         }
@@ -133,6 +145,7 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
             mensaje: 'Producto actualizado'
         });
     } catch (error) {
+        console.error("Error en PUT productos:", error);
         res.status(500).json(error);
     }
 });
